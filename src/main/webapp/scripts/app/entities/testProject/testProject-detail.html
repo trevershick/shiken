@@ -1,0 +1,54 @@
+
+<div>
+    <h2><span translate="shikenApp.testProject.detail.title">TestProject</span> {{testProject.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th translate="entity.detail.field">Field</th>
+                <th translate="entity.detail.value">Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span translate="shikenApp.testProject.name">Name</span>
+                </td>
+                <td>
+                    <input type="text" class="input-sm form-control" value="{{testProject.name}}" readonly>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="shikenApp.testProject.description">Description</span>
+                </td>
+                <td>
+                    <input type="text" class="input-sm form-control" value="{{testProject.description}}" readonly>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="shikenApp.testProject.prefix">Prefix</span>
+                </td>
+                <td>
+                    <input type="text" class="input-sm form-control" value="{{testProject.prefix}}" readonly>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="shikenApp.testProject.active">Active</span>
+                </td>
+                <td>
+                    <input type="text" class="input-sm form-control" value="{{testProject.active}}" readonly>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="testProject"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

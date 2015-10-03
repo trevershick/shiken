@@ -1,0 +1,22 @@
+{
+    "shikenApp": {
+        "testProject" : {
+            "home": {
+                "title": "TestProjects",
+                "createLabel": "Créer un nouveau TestProject",
+                "createOrEditLabel": "Créer ou éditer un TestProject"
+            },
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le TestProject {{ id }} ?"
+            },
+            "detail": {
+                "title": "TestProject"
+            },
+            "name": "Name",
+            "description": "Description",
+            "prefix": "Prefix",
+            "active": "Active"
+        }
+    }
+}
+
