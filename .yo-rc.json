@@ -1,0 +1,21 @@
+{
+  "generator-jhipster": {
+    "baseName": "shiken",
+    "packageName": "io.shick.shiken",
+    "packageFolder": "io/shick/shiken",
+    "authenticationType": "oauth2",
+    "hibernateCache": "ehcache",
+    "clusteredHttpSession": "hazelcast",
+    "websocket": "spring-websocket",
+    "databaseType": "sql",
+    "devDatabaseType": "mysql",
+    "prodDatabaseType": "mysql",
+    "searchEngine": "elasticsearch",
+    "useCompass": false,
+    "buildTool": "maven",
+    "frontendBuilder": "grunt",
+    "javaVersion": "8",
+    "enableTranslation": true,
+    "rememberMeKey": "05d3076637b584ffb328dd476291d3449851a4f4"
+  }
+}
