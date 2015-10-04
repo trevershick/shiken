@@ -1,0 +1,22 @@
+{
+    "shikenApp": {
+        "keyword" : {
+            "home": {
+                "title": "Keywords",
+                "createLabel": "Create a new Keyword",
+                "createOrEditLabel": "Create or edit a Keyword"
+            },
+            "created": "A new Keyword is created with identifier {{ param }}",
+            "updated": "A Keyword is updated with identifier {{ param }}",
+            "deleted": "A Keyword is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Keyword {{ id }}?"
+            },
+            "detail": {
+                "title": "Keyword"
+            },
+            "name": "Name",
+            "description": "Description"
+        }
+    }
+}

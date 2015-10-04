@@ -1,0 +1,20 @@
+{
+    "shikenApp": {
+        "keyword" : {
+            "home": {
+                "title": "Keywords",
+                "createLabel": "Créer un nouveau Keyword",
+                "createOrEditLabel": "Créer ou éditer un Keyword"
+            },
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Keyword {{ id }} ?"
+            },
+            "detail": {
+                "title": "Keyword"
+            },
+            "name": "Name",
+            "description": "Description"
+        }
+    }
+}
+
