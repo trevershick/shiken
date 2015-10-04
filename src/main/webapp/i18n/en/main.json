@@ -1,7 +1,7 @@
 {
     "main": {
-        "title": "Welcome, Java Hipster!",
-        "subtitle": "This is your homepage",
+        "title": "試験",
+        "subtitle": "Test Management",
         "logged": {
             "message": "You are logged in as user \"{{username}}\"."
         },
