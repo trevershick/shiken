@@ -7,7 +7,7 @@ angular.module('shikenApp')
                 parent: 'entity',
                 url: '/testProjects',
                 data: {
-                    roles: ['ROLE_USER'],
+                    roles: ['ROLE_ADMIN'],
                     pageTitle: 'shikenApp.testProject.home.title'
                 },
                 views: {
@@ -28,7 +28,7 @@ angular.module('shikenApp')
                 parent: 'entity',
                 url: '/testProject/{id}',
                 data: {
-                    roles: ['ROLE_USER'],
+                    roles: ['ROLE_ADMIN'],
                     pageTitle: 'shikenApp.testProject.detail.title'
                 },
                 views: {
@@ -51,7 +51,7 @@ angular.module('shikenApp')
                 parent: 'testProject',
                 url: '/new',
                 data: {
-                    roles: ['ROLE_USER'],
+                    roles: ['ROLE_ADMIN'],
                 },
                 onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
                     $modal.open({
@@ -74,7 +74,7 @@ angular.module('shikenApp')
                 parent: 'testProject',
                 url: '/{id}/edit',
                 data: {
-                    roles: ['ROLE_USER'],
+                    roles: ['ROLE_ADMIN'],
                 },
                 onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
                     $modal.open({
