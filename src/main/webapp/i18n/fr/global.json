@@ -8,6 +8,7 @@
                 "main": "Entités",
                 "testProject": "TestProject",
                 "keyword": "Keyword",
+                "platform": "Platform",
                 "additionalEntity": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

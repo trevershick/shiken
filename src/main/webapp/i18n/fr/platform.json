@@ -1,0 +1,20 @@
+{
+    "shikenApp": {
+        "platform" : {
+            "home": {
+                "title": "Platforms",
+                "createLabel": "Créer un nouveau Platform",
+                "createOrEditLabel": "Créer ou éditer un Platform"
+            },
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Platform {{ id }} ?"
+            },
+            "detail": {
+                "title": "Platform"
+            },
+            "name": "Name",
+            "description": "Description"
+        }
+    }
+}
+
