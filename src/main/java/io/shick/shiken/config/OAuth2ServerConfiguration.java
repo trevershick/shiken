@@ -1,4 +1,5 @@
 package io.shick.shiken.config;
+import org.springframework.core.env.*;
 
 import io.shick.shiken.security.AjaxLogoutSuccessHandler;
 import io.shick.shiken.security.AuthoritiesConstants;
@@ -38,8 +39,23 @@ public class OAuth2ServerConfiguration {
         @Inject
         private AjaxLogoutSuccessHandler ajaxLogoutSuccessHandler;
 
+        @Inject
+        private Environment env;
+
         @Override
         public void configure(HttpSecurity http) throws Exception {
+            if (env.acceptsProfiles("!"+Constants.SPRING_PROFILE_PRODUCTION)) {
+              http
+                .authorizeRequests()
+                .antMatchers("/api/logs/**").permitAll()
+                .antMatchers("/api/**").permitAll();
+            } else {
+              http
+                .authorizeRequests()
+                .antMatchers("/api/logs/**").hasAnyAuthority(AuthoritiesConstants.ADMIN)
+                .antMatchers("/api/**").authenticated();
+            }
+
             http
                 .exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPoint)
@@ -57,8 +73,6 @@ public class OAuth2ServerConfiguration {
                 .authorizeRequests()
                 .antMatchers("/api/authenticate").permitAll()
                 .antMatchers("/api/register").permitAll()
-                .antMatchers("/api/logs/**").hasAnyAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/api/**").authenticated()
                 .antMatchers("/websocket/tracker").hasAuthority(AuthoritiesConstants.ADMIN)
                 .antMatchers("/websocket/**").permitAll()
                 .antMatchers("/metrics/**").hasAuthority(AuthoritiesConstants.ADMIN)
