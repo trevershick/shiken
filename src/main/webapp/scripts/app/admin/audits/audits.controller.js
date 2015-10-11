@@ -31,6 +31,7 @@ angular.module('shikenApp')
         };
 
         $scope.today();
-        $scope.previousMonth();
+        $scope.fromDate = new Date();
+        // $scope.previousMonth();
         $scope.onChangeDate();
     });
