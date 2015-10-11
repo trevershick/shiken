@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('shikenApp')
-    .factory('Auth', function Auth($rootScope, $state, $q, $translate, Principal, AuthServerProvider, Account, Register, Activate, Password, PasswordResetInit, PasswordResetFinish, Tracker, accountService) {
+    .factory('Auth', function Auth($rootScope, $state, $q, $translate, Principal, AuthServerProvider, Account, Register, Activate, Password, PasswordResetInit, PasswordResetFinish, Tracker) {
         return {
             login: function (credentials, callback) {
                 var cb = callback || angular.noop;
@@ -17,7 +17,7 @@ angular.module('shikenApp')
                         $translate.refresh();
                         Tracker.sendActivity();
                         deferred.resolve(data);
-                    }).then(accountService.refresh);
+                    });
                     return cb();
                 }).catch(function (err) {
                     this.logout();
