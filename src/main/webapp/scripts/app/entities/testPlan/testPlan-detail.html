@@ -1,0 +1,62 @@
+
+<div>
+    <h2><span translate="shikenApp.testPlan.detail.title">TestPlan</span> {{testPlan.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th translate="entity.detail.field">Field</th>
+                <th translate="entity.detail.value">Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span translate="shikenApp.testPlan.name">Name</span>
+                </td>
+                <td>
+                    <input type="text" class="input-sm form-control" value="{{testPlan.name}}" readonly>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="shikenApp.testPlan.description">Description</span>
+                </td>
+                <td>
+                    <input type="text" class="input-sm form-control" value="{{testPlan.description}}" readonly>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="shikenApp.testPlan.active">Active</span>
+                </td>
+                <td>
+                    <input type="text" class="input-sm form-control" value="{{testPlan.active}}" readonly>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="shikenApp.testPlan.apikey">Apikey</span>
+                </td>
+                <td>
+                    <input type="text" class="input-sm form-control" value="{{testPlan.apikey}}" readonly>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="shikenApp.testPlan.parent">parent</span>
+                </td>
+                <td>
+                    <input type="text" class="input-sm form-control" value="{{testPlan.parentName}}" readonly>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            ui-sref="testPlan"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

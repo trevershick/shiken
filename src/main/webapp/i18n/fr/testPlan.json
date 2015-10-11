@@ -1,0 +1,23 @@
+{
+    "shikenApp": {
+        "testPlan" : {
+            "home": {
+                "title": "TestPlans",
+                "createLabel": "Créer un nouveau TestPlan",
+                "createOrEditLabel": "Créer ou éditer un TestPlan"
+            },
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le TestPlan {{ id }} ?"
+            },
+            "detail": {
+                "title": "TestPlan"
+            },
+            "name": "Name",
+            "description": "Description",
+            "active": "Active",
+            "apikey": "Apikey",
+            "parent": "parent"
+        }
+    }
+}
+
