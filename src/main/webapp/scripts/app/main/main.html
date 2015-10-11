@@ -1,21 +1,46 @@
-<div ng-cloak>
-    <div class="row">
-        <div class="col-md-12">
-            <div ng-switch="isAuthenticated()" class="box box-primary">
-              <div class="box-header with-border">
-                <h3 class="box-title">Welcome</h3>
-              </div>
-              <div class="box-body">
-                <div class="alert alert-success" ng-switch-when="true" translate="main.logged.message" translate-values="{username: '{{account.login}}'}">
-                    You are logged in as user "{{account.login}}".
-                </div>
+<div ng-cloak ng-show="isUser()">
 
-
-              </div>
-              <div class="box-footer no-padding">
-              </div>
-            </div>
-
-        </div>
+  <div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12" ng-repeat="ib in infoBoxes">
+      <dashboard-info-box title="ib.title" icon="ib.icon" value="ib.value" color="ib.color"></dashboard-info-box>
     </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+      <div class="box">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Executed Test Cases Over Time</h3>
+                  <!-- <div class="box-tools pull-right">
+                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    <div class="btn-group">
+                      <button class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown"><i class="fa fa-wrench"></i></button>
+                      <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                      </ul>
+                    </div>
+                    <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                  </div>
+                </div>-->
+                <div class="box-body">
+
+                  <p class="text-center">
+                    <strong>1 Jan, 2014 - 30 Jul, 2014</strong>
+                  </p>
+                  <div class="chart">
+
+                    <!-- Sales Chart Canvas -->
+                    <canvas style="height: 300px; width: 643px;" test-cases-over-time-chart></canvas>
+                  </div><!-- /.chart-responsive -->
+
+
+                </div><!-- ./box-body -->
+                <div class="box-footer"></div><!-- /.box-footer -->
+              </div>
+    </div>
+  </div>
 </div>

@@ -34,7 +34,7 @@
       <header class="main-header">
 
         <!-- Logo -->
-        <a href="index2.html" class="logo">
+        <a ui-sref="home" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini"><b>A</b>LT</span>
           <!-- logo for regular state and mobile devices -->
@@ -70,7 +70,7 @@
           <!-- Sidebar user panel -->
           <current-user-block></current-user-block>
           <!-- search form -->
-          <form action="#" method="get" class="sidebar-form">
+          <form action="#" method="get" class="sidebar-form" ng-show="isUser()">
             <div class="input-group">
               <input type="text" name="q" class="form-control" placeholder="Search...">
               <span class="input-group-btn">
@@ -81,10 +81,10 @@
           <!-- /.search form -->
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
-            <li class="header ng-cloak" ng-show="isAuthenticated()">GLOBAL</li>
-            <li class="treeview ng-cloak" ng-show="isAuthenticated()">
+            <li class="header ng-cloak" ng-show="isUser()">GLOBAL</li>
+            <li class="treeview ng-cloak" ng-show="isUser()">
               <a href="#">
-                <i class="fa fa-folder"></i> <span>Reference Data</span>
+                <i class="fa fa-database"></i> <span>Reference Data</span>
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
@@ -99,7 +99,7 @@
                 </li>
               </ul>
             </li>
-            <li class="treeview ng-cloak" ng-show="isAuthenticated()">
+            <li class="treeview ng-cloak" ng-show="isUser()">
               <a href="#">
                 <i class="fa fa-folder"></i> <span>Projects</span>
                 <i class="fa fa-angle-left pull-right"></i>
@@ -118,22 +118,69 @@
             </li>
 
 
-            <li><a href="#"><i class="fa fa-book"></i> <span>Front Page</span></a></li>
+            <li class="treeview ng-cloak" ng-show="isUser()">
+              <a href="#">
+                <i class="fa fa-database"></i> <span>Admin</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li ui-sref-active="active" ><a ui-sref="logs">
+                  <i class="fa fa-circle-o"></i> Logs</a></li>
+                </li>
+              </ul>
 
-            <li class="header">USER</li>
+              <ul class="treeview-menu">
+                <li ui-sref-active="active" ><a ui-sref="audits">
+                  <i class="fa fa-circle-o"></i> Audits</a></li>
+                </li>
+              </ul>
+              <ul class="treeview-menu">
+                <li ui-sref-active="active" ><a ui-sref="configuration">
+                  <i class="fa fa-circle-o"></i> Configuration</a></li>
+                </li>
+              </ul>
+              <ul class="treeview-menu">
+                <li ui-sref-active="active" ><a ui-sref="health">
+                  <i class="fa fa-circle-o"></i> Health</a></li>
+                </li>
+              </ul>
+              <ul class="treeview-menu">
+                <li ui-sref-active="active" ><a ui-sref="metrics">
+                  <i class="fa fa-circle-o"></i> Metrics</a></li>
+                </li>
+              </ul>
+              <ul class="treeview-menu">
+                <li ui-sref-active="active" ><a ui-sref="tracker">
+                  <i class="fa fa-circle-o"></i> Tracker</a></li>
+                </li>
+              </ul>
 
-            <li ui-sref-active="active" ng-show="isAuthenticated()"><a ui-sref="settings"><span class="glyphicon glyphicon-wrench"></span>
-                &#xA0;<span translate="global.menu.account.settings">Settings</span></a></li>
-            <li ui-sref-active="active" ng-show="isAuthenticated()"><a ui-sref="password"><span class="glyphicon glyphicon-lock"></span>
-                &#xA0;<span translate="global.menu.account.password">Password</span></a></li>
-            <li ui-sref-active="active" ng-show="isAuthenticated()"><a href="" ui-sref="logout"><span class="glyphicon glyphicon-log-out"></span>
-                &#xA0;<span translate="global.menu.account.logout">Log out</span></a></li>
-            <li ui-sref-active="active" ng-hide="isAuthenticated()"><a ui-sref="login"><span class="glyphicon glyphicon-log-in"></span>
-                &#xA0;<span translate="global.menu.account.login">Authenticate</span></a></li>
 
-            <li ui-sref-active="active" ng-hide="isAuthenticated()"><a ui-sref="register"><span class="glyphicon glyphicon-plus-sign"></span>
-                &#xA0;<span translate="global.menu.account.register">Register</span></a></li>
 
+
+
+
+            </li>
+
+            <li class="treeview ng-cloak" ng-show="isUser()">
+              <a href="#">
+                <i class="fa fa-registered"></i> <span>My Account</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li ui-sref-active="active" ng-show="isUser()"><a ui-sref="settings"><span class="glyphicon glyphicon-wrench"></span>
+                    &#xA0;<span translate="global.menu.account.settings">Settings</span></a></li>
+                <li ui-sref-active="active" ng-show="isUser()"><a ui-sref="password"><span class="glyphicon glyphicon-lock"></span>
+                    &#xA0;<span translate="global.menu.account.password">Password</span></a></li>
+                <li ui-sref-active="active" ng-show="isUser()"><a href="" ng-click="logout()"><span class="glyphicon glyphicon-log-out"></span>
+                    &#xA0;<span translate="global.menu.account.logout">Log out</span></a></li>
+              </ul>
+            </li>
+                <li ui-sref-active="active" ng-hide="isUser()"><a ui-sref="login"><span class="glyphicon glyphicon-log-in"></span>
+                    &#xA0;<span translate="global.menu.account.login">Authenticate</span></a></li>
+
+                <li ui-sref-active="active" ng-hide="isUser()"><a ui-sref="register"><span class="glyphicon glyphicon-plus-sign"></span>
+                    &#xA0;<span translate="global.menu.account.register">Register</span></a></li>
 
 
           </ul>
@@ -355,6 +402,7 @@
     <!-- bower:js -->
     <!--<script src="bower_components/modernizr/modernizr.js"></script>-->
     <!--<script src="bower_components/jquery/dist/jquery.js"></script>-->
+    <script src="bower_components/lodash/lodash.min.js"></script>
     <!-- jQuery 2.1.4 -->
     <script src="bower_components/AdminLTE/plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <!-- Bootstrap 3.3.5 -->
@@ -401,8 +449,8 @@
         <script src="scripts/components/auth/auth.service.js"></script>
         <script src="scripts/components/auth/principal.service.js"></script>
         <script src="scripts/components/auth/authority.directive.js"></script>
-        <script src="scripts/components/auth/services/account.service.js"></script>
         <script src="scripts/components/auth/services/activate.service.js"></script>
+        <script src="scripts/components/auth/services/account.service.js"></script>
         <script src="scripts/components/form/form.directive.js"></script>
         <script src="scripts/components/form/maxbytes.directive.js"></script>
         <script src="scripts/components/form/minbytes.directive.js"></script>

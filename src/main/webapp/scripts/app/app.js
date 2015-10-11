@@ -3,7 +3,6 @@
 angular.module('shikenApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalprecht.translate',
                'ui.bootstrap', // for modal dialogs
     'ngResource', 'ui.router', 'ngCookies', 'ngCacheBuster', 'ngFileUpload', 'infinite-scroll'])
-
     .run(function ($rootScope, $location, $window, $http, $state, $translate, Language, Auth, Principal, ENV, VERSION) {
         $rootScope.ENV = ENV;
         $rootScope.VERSION = VERSION;
@@ -39,10 +38,8 @@ angular.module('shikenApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalp
             });
 
         });
-        $rootScope.isAuthenticated = function() {
-          return Principal.isAuthenticated();
-        };
 
+        $rootScope.isUser = function() { return Principal.isUser(); }
         $rootScope.back = function() {
             // If previous state is 'activate' or do not exist go to 'home'
             if ($rootScope.previousStateName === 'activate' || $state.get($rootScope.previousStateName) === null) {
@@ -51,6 +48,12 @@ angular.module('shikenApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalp
                 $state.go($rootScope.previousStateName, $rootScope.previousStateParams);
             }
         };
+    })
+    .run(function($rootScope, $state, Auth) {
+      $rootScope.logout = function() {
+          Auth.logout();
+          $state.go('home');
+      };
     })
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $translateProvider, tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider) {
 
