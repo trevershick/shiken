@@ -72,10 +72,10 @@ angular.module('shikenApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalp
                     templateUrl: 'scripts/components/navbar/navbar.html',
                     controller: 'NavbarController'
                 },*/
-                'contentHeader@': {
+                /*'contentHeader@': {
                     templateUrl: 'scripts/components/navbar/lte-header.html',
                     controller: 'NavbarController'
-                }
+                }*/
             },
             resolve: {
                 authorize: ['Auth',

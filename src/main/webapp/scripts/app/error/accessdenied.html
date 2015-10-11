@@ -1,13 +1,21 @@
 <div ng-cloak>
-    <div class="row">
-        <div class="col-md-4">
-            <span class="hipster img-responsive img-rounded"></span>
-        </div>
-        <div class="col-md-8">
-            <h1 translate="error.title">Error Page!</h1>
+  <section class="content-header">
+    <h1>
+      Access Denied
+    </h1>
+  </section>
 
-            <div class="alert alert-danger" translate="error.403">You are not authorized to access the page.
-            </div>
-        </div>
-    </div>
+  <section class="content">
+
+    <div class="error-page">
+      <h2 class="headline text-red">401</h2>
+      <div class="error-content">
+        <h3><i class="fa fa-warning text-red"></i> You are not authorized to access the page.</h3>
+        <p>
+          You do not have the appropriate permissions to view this page.
+          Meanwhile, you may <a ui-sref="home">return to the dashboard</a> or <a ui-sref="login">Sign In</a>.
+        </p>
+      </div>
+    </div><!-- /.error-page -->
+  </section>
 </div>

@@ -36,3 +36,12 @@ ul#strengthBar {
 .sidebar .sidebar-menu .active .treeview-menu {
     display: block;
 }
+div.info-box.bg-red a {
+  color:white;
+}
+div.info-box.bg-green a {
+  color:white;
+}
+.hand {
+  cursor:pointer;
+}

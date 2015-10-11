@@ -1,30 +1,29 @@
 'use strict';
 
 angular.module('shikenApp')
-    .controller('HealthController', function ($scope, MonitoringService, $modal) {
+    .controller('HealthController', function ($scope, MonitoringService, $modal, $timeout) {
         $scope.updatingHealth = true;
         $scope.separator = '.';
 
-        $scope.refresh = function () {
+        $scope.doneUpdating = function() {
+          $scope.__t = $timeout(function() {
+            $scope.updatingHealth = false;
+          }, 500);
+        };
+        $scope.startUpdating = function() {
+          $timeout.cancel($scope.__t);
             $scope.updatingHealth = true;
+        };
+        $scope.refresh = function () {
+          $scope.startUpdating();
             MonitoringService.checkHealth().then(function (response) {
                 $scope.healthData = $scope.transformHealthData(response);
-                $scope.updatingHealth = false;
             }, function (response) {
                 $scope.healthData =  $scope.transformHealthData(response.data);
-                $scope.updatingHealth = false;
-            });
+            }).finally($scope.doneUpdating);
         };
 
         $scope.refresh();
-
-        $scope.getLabelClass = function (statusState) {
-            if (statusState === 'UP') {
-                return 'label-success';
-            } else {
-                return 'label-danger';
-            }
-        };
 
         $scope.transformHealthData = function (data) {
             var response = [];
