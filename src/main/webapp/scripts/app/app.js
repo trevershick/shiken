@@ -53,11 +53,15 @@ angular.module('shikenApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalp
 
     })
     .run(function($rootScope, $state, Auth) {
-
       $rootScope.logout = function() {
           Auth.logout();
           $state.go('home');
       };
+    })
+    .run(function($rootScope, $state) {
+      if (! $rootScope.isUser()) {
+        $state.go('login');
+      }
     })
     .config(function ($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $translateProvider, tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider) {
 
