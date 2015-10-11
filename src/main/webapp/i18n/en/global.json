@@ -1,13 +1,14 @@
 {
     "global": {
         "title": "試験",
+        "version": "1.0",
         "browsehappy": "You are using an <strong>outdated</strong> browser. Please <a href=\"http://browsehappy.com/?locale=en\">upgrade your browser</a> to improve your experience.",
         "norecords": "No Records...",
         "menu": {
             "home": "Home",
             "entities": {
                 "main": "Entities",
-                "testProject": "TestProject",
+                "testProject": "Test Project",
                 "keyword": "Keyword",
                 "platform": "Platform",
                 "additionalEntity": "JHipster will add additional entities here (do not translate!)"

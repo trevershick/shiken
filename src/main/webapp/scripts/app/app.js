@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('shikenApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalprecht.translate', 
+angular.module('shikenApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalprecht.translate',
                'ui.bootstrap', // for modal dialogs
     'ngResource', 'ui.router', 'ngCookies', 'ngCacheBuster', 'ngFileUpload', 'infinite-scroll'])
 
@@ -14,12 +14,12 @@ angular.module('shikenApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalp
             if (Principal.isIdentityResolved()) {
                 Auth.authorize();
             }
-            
+
             // Update the language
             Language.getCurrent().then(function (language) {
                 $translate.use(language);
             });
-            
+
         });
 
         $rootScope.$on('$stateChangeSuccess',  function(event, toState, toParams, fromState, fromParams) {
@@ -32,13 +32,16 @@ angular.module('shikenApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalp
             if (toState.data.pageTitle) {
                 titleKey = toState.data.pageTitle;
             }
-            
+
             $translate(titleKey).then(function (title) {
                 // Change window title with translated one
                 $window.document.title = title;
             });
-            
+
         });
+        $rootScope.isAuthenticated = function() {
+          return Principal.isAuthenticated();
+        };
 
         $rootScope.back = function() {
             // If previous state is 'activate' or do not exist go to 'home'
@@ -58,8 +61,12 @@ angular.module('shikenApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalp
         $stateProvider.state('site', {
             'abstract': true,
             views: {
-                'navbar@': {
+                /*'navbar@': {
                     templateUrl: 'scripts/components/navbar/navbar.html',
+                    controller: 'NavbarController'
+                },*/
+                'contentHeader@': {
+                    templateUrl: 'scripts/components/navbar/lte-header.html',
                     controller: 'NavbarController'
                 }
             },
@@ -79,7 +86,7 @@ angular.module('shikenApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalp
         $httpProvider.interceptors.push('authExpiredInterceptor');
         $httpProvider.interceptors.push('authInterceptor');
         $httpProvider.interceptors.push('notificationInterceptor');
-        
+
         // Initialize angular-translate
         $translateProvider.useLoader('$translatePartialLoader', {
             urlTemplate: 'i18n/{lang}/{part}.json'
@@ -93,5 +100,5 @@ angular.module('shikenApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalp
         tmhDynamicLocaleProvider.localeLocationPattern('bower_components/angular-i18n/angular-locale_{{locale}}.js');
         tmhDynamicLocaleProvider.useCookieStorage();
         tmhDynamicLocaleProvider.storageKey('NG_TRANSLATE_LANG_KEY');
-        
+
     });

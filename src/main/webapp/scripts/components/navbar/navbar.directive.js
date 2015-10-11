@@ -1,6 +1,24 @@
 'use strict';
 
 angular.module('shikenApp')
+  .controller('CurrentUserBlockController',['$scope','accountService', function($scope, accountService) {
+    $scope.auth = accountService;
+  }])
+  .directive('userMenu', function() {
+    return {
+      restrict: 'E',
+      replace:true,
+      templateUrl: 'scripts/components/navbar/userMenu.html'
+    };
+  })
+  .directive('currentUserBlock', function($translate) {
+    return {
+      replace:true,
+      restrict: 'E',
+      templateUrl: 'scripts/components/navbar/userPanel.html'
+    };
+  })
+
     .directive('activeMenu', function($translate, $locale, tmhDynamicLocale) {
         return {
             restrict: 'A',

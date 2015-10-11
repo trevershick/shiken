@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('shikenApp')
-    .factory('Auth', function Auth($rootScope, $state, $q, $translate, Principal, AuthServerProvider, Account, Register, Activate, Password, PasswordResetInit, PasswordResetFinish, Tracker) {
+    .factory('Auth', function Auth($rootScope, $state, $q, $translate, Principal, AuthServerProvider, Account, Register, Activate, Password, PasswordResetInit, PasswordResetFinish, Tracker, accountService) {
         return {
             login: function (credentials, callback) {
                 var cb = callback || angular.noop;
@@ -10,14 +10,14 @@ angular.module('shikenApp')
                 AuthServerProvider.login(credentials).then(function (data) {
                     // retrieve the logged account information
                     Principal.identity(true).then(function(account) {
-                      
+
                         // After the login the language will be changed to
                         // the language selected by the user during his registration
                         $translate.use(account.langKey);
                         $translate.refresh();
                         Tracker.sendActivity();
                         deferred.resolve(data);
-                    });
+                    }).then(accountService.refresh);
                     return cb();
                 }).catch(function (err) {
                     this.logout();

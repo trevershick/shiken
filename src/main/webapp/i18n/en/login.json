@@ -1,16 +1,19 @@
 {
     "login": {
-        "title": "Authentication",
+        "title": "Sign In",
         "form": {
             "password": "Password",
-            "password.placeholder": "Your password",
+            "password.placeholder": "Password",
             "rememberme": "Automatic Login",
-            "button": "Authenticate"
+            "button": "Sign In"
         },
         "messages": {
             "error": {
                 "authentication": "<strong>Authentication failed!</strong> Please check your credentials and try again."
             }
+        },
+        "register": {
+          "new" : "Register a new account"
         },
         "password" : {
             "forgot": "Did you forget your password?"

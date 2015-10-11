@@ -100,7 +100,7 @@ public class CacheConfiguration {
             config.getNetworkConfig().getJoin().getMulticastConfig().setEnabled(false);
             config.getNetworkConfig().getJoin().getTcpIpConfig().setEnabled(false);
         }
-        
+
         config.getMapConfigs().put("my-sessions", initializeClusteredSession());
 
         hazelcastInstance = HazelcastInstanceFactory.newHazelcastInstance(config);
