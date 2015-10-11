@@ -5,8 +5,4 @@ angular.module('shikenApp')
         $scope.isAuthenticated = Principal.isAuthenticated;
         $scope.$state = $state;
 
-        $scope.logout = function () {
-            Auth.logout();
-            $state.go('home');
-        };
     });
