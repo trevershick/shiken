@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('shikenApp')
-    .factory('Tracker', function ($rootScope, $cookies, $http, $q) {
+    .factory('Tracker', function ($rootScope, $cookies, $http, $q, localStorageService) {
         var stompClient = null;
         var subscriber = null;
         var listener = $q.defer();
@@ -17,14 +17,26 @@ angular.module('shikenApp')
         }
         return {
             connect: function () {
-                //building absolute path so that websocket doesnt fail when deploying with a context path
-                var loc = window.location;
-                // var url = '//' + loc.host + loc.pathname + 'websocket/tracker';
-                var url = '//' + loc.host + '/websocket/tracker';
-                var socket = new SockJS(url);
+
+              var loc = window.location;
+              var webSocketUrl = '//' + loc.host + '/websocket/tracker';
+              var token = localStorageService.get('token');
+              if (token && token.expires_at && token.expires_at > new Date().getTime()) {
+                  webSocketUrl += '?access_token=' + token.access_token;
+              } else {
+                  webSocketUrl += '?access_token=no token';
+              }
+              var socket = new SockJS(webSocketUrl);
+              stompClient = Stomp.over(socket);
+
+                // //building absolute path so that websocket doesnt fail when deploying with a context path
+                // var loc = window.location;
+                // // var url = '//' + loc.host + loc.pathname + 'websocket/tracker';
+                // var url = '//' + loc.host + '/websocket/tracker';
+                // var socket = new SockJS(url);
                 stompClient = Stomp.over(socket);
                 var headers = {};
-                headers['X-CSRF-TOKEN'] = $cookies[$http.defaults.xsrfCookieName];
+                // headers['X-CSRF-TOKEN'] = $cookies[$http.defaults.xsrfCookieName];
                 stompClient.connect(headers, function(frame) {
                     connected.resolve("success");
                     sendActivity();

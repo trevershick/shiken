@@ -11,10 +11,12 @@ public class WebsocketSecurityConfiguration extends AbstractSecurityWebSocketMes
     @Override
     protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
         messages
+            .simpTypeMatchers(SimpMessageType.CONNECT, SimpMessageType.HEARTBEAT, SimpMessageType.UNSUBSCRIBE, SimpMessageType.DISCONNECT).permitAll()
             // message types other than MESSAGE and SUBSCRIBE
             .nullDestMatcher().authenticated()
             // matches any destination that starts with /rooms/
             .simpDestMatchers("/topic/**").authenticated()
+            .simpDestMatchers("/app/**").authenticated()
             // (i.e. cannot send messages directly to /topic/, /queue/)
             // (i.e. cannot subscribe to /topic/messages/* to get messages sent to
             // /topic/messages-user<id>)
