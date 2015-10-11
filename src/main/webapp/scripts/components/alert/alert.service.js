@@ -28,7 +28,9 @@ angular.module('shikenApp')
 
         function success(msg, params) {
             this.add({
+                title: "Note",
                 type: "success",
+                icon: "fa-check",
                 msg: msg,
                 params: params,
                 timeout: timeout
@@ -37,7 +39,9 @@ angular.module('shikenApp')
 
         function error(msg, params) {
             this.add({
+                title: "Error!",
                 type: "danger",
+                icon: "fa-ban",
                 msg: msg,
                 params: params,
                 timeout: timeout
@@ -46,7 +50,9 @@ angular.module('shikenApp')
 
         function warning(msg, params) {
             this.add({
+                title: "Warning",
                 type: "warning",
+                icon: "fa-warning",
                 msg: msg,
                 params: params,
                 timeout: timeout
@@ -55,7 +61,9 @@ angular.module('shikenApp')
 
         function info(msg, params) {
             this.add({
+              title: "Note",
                 type: "info",
+                icon: "fa-info",
                 msg: msg,
                 params: params,
                 timeout: timeout
@@ -64,6 +72,8 @@ angular.module('shikenApp')
 
         function factory(alertOptions) {
             return alerts.push({
+              title: alertOptions.title,
+              icon: alertOptions.icon,
                 type: alertOptions.type,
                 msg: $sce.trustAsHtml(alertOptions.msg),
                 id: alertOptions.alertId,

@@ -6,8 +6,8 @@
                 "createLabel": "Create a new TestPlan",
                 "createOrEditLabel": "Create or edit a TestPlan"
             },
-            "created": "A new TestPlan is created with identifier {{ param }}",
-            "updated": "A TestPlan is updated with identifier {{ param }}",
+            "created": "The test plan named '{{ name }}' has been created.",
+            "updated": "The test plan named '{{ name }}' has been updated.",
             "deleted": "A TestPlan is deleted with identifier {{ param }}",
             "delete": {
                 "question": "Are you sure you want to delete TestPlan {{ id }}?"
@@ -18,8 +18,8 @@
             "name": "Name",
             "description": "Description",
             "active": "Active",
-            "apikey": "Apikey",
-            "parent": "parent"
+            "apikey": "API Key",
+            "parent": "Project"
         }
     }
 }

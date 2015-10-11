@@ -6,7 +6,12 @@ angular.module('shikenApp')
             response: function(response) {
                 var alertKey = response.headers('X-shikenApp-alert');
                 if (angular.isString(alertKey)) {
-                    AlertService.success(alertKey, { param : response.headers('X-shikenApp-params')});
+                  var params = { param : response.headers('X-shikenApp-params')};
+                  if (response.data) {
+                    params = response.data;
+                  }
+                  debugger;
+                  AlertService.success(alertKey, params);
                 }
                 return response;
             },

@@ -64,7 +64,9 @@
                     <td><a ui-sref="testPlan.detail({id:testPlan.id})">{{testPlan.id}}</a></td>
                     <td>{{testPlan.name}}</td>
                     <td>{{testPlan.description}}</td>
-                    <td>{{testPlan.active}}</td>
+                    <td>
+                        <span class="label label-success ng-cloak" ng-show="testPlan.active">Active</span>
+                    </td>
                     <td>{{testPlan.apikey}}</td>
                     <td>{{testPlan.parentName}}</td>
                     <td>
