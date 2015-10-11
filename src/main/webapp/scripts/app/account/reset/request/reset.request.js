@@ -4,7 +4,7 @@ angular.module('shikenApp')
     .config(function ($stateProvider) {
         $stateProvider
             .state('requestReset', {
-                parent: 'account',
+                parent: 'my.account',
                 url: '/reset/request',
                 data: {
                     roles: []

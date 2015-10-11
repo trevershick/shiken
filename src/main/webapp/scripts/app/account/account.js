@@ -7,4 +7,10 @@ angular.module('shikenApp')
                 abstract: true,
                 parent: 'site'
             });
+        $stateProvider
+            .state('my', {
+                url: '/my',
+                abstract: true,
+                parent: 'site'
+            });
     });

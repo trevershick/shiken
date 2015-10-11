@@ -4,8 +4,8 @@ angular.module('shikenApp')
     .config(function ($stateProvider) {
         $stateProvider
             .state('password', {
-                parent: 'account',
-                url: '/my/password',
+                parent: 'my',
+                url: '/password',
                 data: {
                     roles: ['ROLE_USER'],
                     pageTitle: 'global.menu.account.password'

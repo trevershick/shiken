@@ -4,7 +4,7 @@ angular.module('shikenApp')
     .config(function ($stateProvider) {
         $stateProvider
             .state('logout', {
-                parent: 'account',
+                parent: 'my.account',
                 url: '/logout',
                 data: {
                     roles: []

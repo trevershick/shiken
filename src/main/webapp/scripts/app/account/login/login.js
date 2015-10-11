@@ -7,7 +7,7 @@ angular.module('shikenApp')
                 parent: 'account',
                 url: '/login',
                 data: {
-                    roles: [], 
+                    roles: [],
                     pageTitle: 'login.title'
                 },
                 views: {

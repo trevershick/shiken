@@ -4,7 +4,7 @@ angular.module('shikenApp')
     .config(function ($stateProvider) {
         $stateProvider
             .state('settings', {
-                parent: 'account',
+                parent: 'my',
                 url: '/settings',
                 data: {
                     roles: ['ROLE_USER'],

@@ -4,7 +4,7 @@ angular.module('shikenApp')
     .config(function ($stateProvider) {
         $stateProvider
             .state('activate', {
-                parent: 'account',
+                parent: 'my.account',
                 url: '/activate?key',
                 data: {
                     roles: [],
@@ -24,4 +24,3 @@ angular.module('shikenApp')
                 }
             });
     });
-

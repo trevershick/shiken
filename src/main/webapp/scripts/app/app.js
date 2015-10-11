@@ -48,8 +48,12 @@ angular.module('shikenApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalp
                 $state.go($rootScope.previousStateName, $rootScope.previousStateParams);
             }
         };
+
+        $rootScope.$state = $state;
+
     })
     .run(function($rootScope, $state, Auth) {
+
       $rootScope.logout = function() {
           Auth.logout();
           $state.go('home');
