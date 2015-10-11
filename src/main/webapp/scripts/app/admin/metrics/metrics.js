@@ -5,7 +5,7 @@ angular.module('shikenApp')
         $stateProvider
             .state('metrics', {
                 parent: 'admin',
-                url: '/metrics',
+                url: '/admin/metrics',
                 data: {
                     roles: ['ROLE_ADMIN'],
                     pageTitle: 'metrics.title'
