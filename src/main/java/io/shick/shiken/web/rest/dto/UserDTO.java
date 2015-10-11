@@ -50,6 +50,12 @@ public class UserDTO {
         this.roles = roles;
     }
 
+    public String getGravatarImageUrl() {
+      String email = getEmail();
+      String hash = MD5Util.md5Hex(email);
+      return "http://www.gravatar.com/avatar/" + hash;
+    }
+
     public String getPassword() {
         return password;
     }
