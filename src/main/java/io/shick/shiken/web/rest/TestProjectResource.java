@@ -15,6 +15,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -113,6 +115,7 @@ public class TestProjectResource {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
+    @PreAuthorize("hasRole('ROLE_ADMIN') and hasPermission(#id, 'Project', 'OP_READ')")
     public ResponseEntity<TestProjectDTO> get(@PathVariable Long id) {
         log.debug("REST request to get TestProject : {}", id);
         return Optional.ofNullable(testProjectRepository.findOne(id))
@@ -131,6 +134,8 @@ public class TestProjectResource {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<Void> delete(@PathVariable Long id) {
+    	// TODO return the entity upon delete
+    	
         log.debug("REST request to delete TestProject : {}", id);
         testProjectRepository.delete(id);
         testProjectSearchRepository.delete(id);

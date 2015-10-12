@@ -1,11 +1,25 @@
 package io.shick.shiken.domain;
 
-import org.hibernate.annotations.Type;
-import org.joda.time.LocalDateTime;
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapKeyColumn;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.Type;
+import org.joda.time.LocalDateTime;
+import org.pojomatic.Pojomatic;
+import org.pojomatic.annotations.PojomaticPolicy;
+import org.pojomatic.annotations.Property;
 
 /**
  * Persist AuditEvent managed by the Spring Boot actuator
@@ -18,22 +32,28 @@ public class PersistentAuditEvent  {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "event_id")
+	@Property
     private Long id;
 
     @NotNull
     @Column(nullable = false)
+	@Property
     private String principal;
 
     @Column(name = "event_date")
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
+	@Property
     private LocalDateTime auditEventDate;
+
     @Column(name = "event_type")
+	@Property
     private String auditEventType;
 
     @ElementCollection
     @MapKeyColumn(name="name")
     @Column(name="value")
     @CollectionTable(name="JHI_PERSISTENT_AUDIT_EVT_DATA", joinColumns=@JoinColumn(name="event_id"))
+	@Property(policy=PojomaticPolicy.TO_STRING)
     private Map<String, String> data = new HashMap<>();
 
     public Long getId() {
@@ -75,4 +95,18 @@ public class PersistentAuditEvent  {
     public void setData(Map<String, String> data) {
         this.data = data;
     }
+    
+
+	@Override
+	public String toString() {
+		return Pojomatic.toString(this);
+	}
+	@Override
+	public int hashCode() {
+		return Pojomatic.hashCode(this);
+	}
+	@Override
+	public boolean equals(Object other) {
+		return Pojomatic.equals(this, other);
+	}
 }

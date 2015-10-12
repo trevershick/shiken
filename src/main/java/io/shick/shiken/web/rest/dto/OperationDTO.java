@@ -1,56 +1,40 @@
-package io.shick.shiken.domain;
+package io.shick.shiken.web.rest.dto;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.pojomatic.Pojomatic;
-import org.pojomatic.annotations.Property;
+import org.pojomatic.annotations.AutoProperty;
+
 
 /**
- * An authority (a security role) used by Spring Security.
+ * A DTO for the Keyword entity.
  */
-@Entity
-@Table(name = "JHI_OPERATION")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Operation implements Serializable {
-	
+@AutoProperty
+public class OperationDTO implements Serializable {
+
+
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8783689208002274800L;
+	private static final long serialVersionUID = -2686021689023935959L;
 
+	@NotNull
+    @Size(min = 0, max = 15)
+	private String name;
 
-	@Property
-	@Id
 	@NotNull
-    @Size(min = 0, max = 25)
-    @Column(length = 15)
-	String name;
-	
-	@Property
-	@NotNull
-    @Size(min = 4, max = 35)
-    @Column(length = 25,nullable=true)
+    @Size(min = 4, max = 25)
 	private String title;
 
-	@Property
-    @Column
 	private String description;
-	
-	@NotNull
-	@Column
-	@Property
-	String groupName;
 
-	
+	@NotNull
+	private String groupName;
+
 	public String getName() {
 		return name;
 	}
@@ -82,18 +66,20 @@ public class Operation implements Serializable {
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
 	}
-	
 	@Override
 	public String toString() {
 		return Pojomatic.toString(this);
 	}
+
 	@Override
 	public int hashCode() {
 		return Pojomatic.hashCode(this);
 	}
+
 	@Override
 	public boolean equals(Object other) {
 		return Pojomatic.equals(this, other);
 	}
+	
 
 }

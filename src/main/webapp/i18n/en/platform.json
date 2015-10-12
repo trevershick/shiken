@@ -6,9 +6,9 @@
                 "createLabel": "Create a new Platform",
                 "createOrEditLabel": "Create or edit a Platform"
             },
-            "created": "A new Platform is created with identifier {{ param }}",
+            "created": "The platform has been created.",
             "updated": "A Platform is updated with identifier {{ param }}",
-            "deleted": "A Platform is deleted with identifier {{ param }}",
+            "deleted": "The {{ name }} platform has been deleted.",
             "delete": {
                 "question": "Are you sure you want to delete Platform {{ id }}?"
             },

@@ -1,8 +1,11 @@
 package io.shick.shiken.security;
 
-import io.shick.shiken.domain.Role;
-import io.shick.shiken.domain.User;
-import io.shick.shiken.repository.UserRepository;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import javax.inject.Inject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,13 +15,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.Collections;
-import java.util.List;
+import io.shick.shiken.domain.User;
+import io.shick.shiken.repository.UserRepository;
 
 /**
  * Authenticate a user from the database.
@@ -41,12 +39,13 @@ public class UserDetailsService implements org.springframework.security.core.use
             if (!user.getActivated()) {
                 throw new UserNotActivatedException("User " + lowercaseLogin + " was not activated");
             }
-            List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
-                    .map(authority -> new SimpleGrantedAuthority(authority.getName()))
-                    .collect(Collectors.toList());
+            List<GrantedAuthority> ga = user.getAllAuthorities()
+            		.stream()
+            		.map(SimpleGrantedAuthority::new)
+            		.collect(Collectors.toList());
             return new org.springframework.security.core.userdetails.User(lowercaseLogin,
                     user.getPassword(),
-                    grantedAuthorities);
+                    ga);
         }).orElseThrow(() -> new UsernameNotFoundException("User " + lowercaseLogin + " was not found in the database"));
     }
 }

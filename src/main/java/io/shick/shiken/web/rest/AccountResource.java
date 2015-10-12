@@ -1,6 +1,26 @@
 package io.shick.shiken.web.rest;
 
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.codahale.metrics.annotation.Timed;
+
 import io.shick.shiken.domain.Role;
 import io.shick.shiken.domain.User;
 import io.shick.shiken.repository.UserRepository;
@@ -8,21 +28,6 @@ import io.shick.shiken.security.SecurityUtils;
 import io.shick.shiken.service.MailService;
 import io.shick.shiken.service.UserService;
 import io.shick.shiken.web.rest.dto.UserDTO;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * REST controller for managing the current user's account.
@@ -113,7 +118,7 @@ public class AccountResource {
                         user.getLastName(),
                         user.getEmail(),
                         user.getLangKey(),
-                        user.getAuthorities().stream().map(Role::getName)
+                        user.getAllAuthorities().stream()
                             .collect(Collectors.toList())),
                 HttpStatus.OK);
             })

@@ -1,21 +1,35 @@
 package io.shick.shiken.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.validator.constraints.Email;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import org.springframework.data.elasticsearch.annotations.Document;
-import javax.persistence.*;
-import org.hibernate.annotations.Type;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.Email;
 import org.joda.time.DateTime;
+import org.pojomatic.Pojomatic;
+import org.springframework.data.elasticsearch.annotations.Document;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A user.
@@ -26,7 +40,12 @@ import org.joda.time.DateTime;
 @Document(indexName="user")
 public class User extends AbstractAuditingEntity implements Serializable {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6633927113063518747L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
@@ -82,9 +101,28 @@ public class User extends AbstractAuditingEntity implements Serializable {
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Role> authorities = new HashSet<>();
+    private Set<Role> globalRoles = new HashSet<>();
 
-    public Long getId() {
+    @OneToMany(mappedBy="user")
+    private List<ProjectRole> projectRoles;
+    
+    public Set<Role> getGlobalRoles() {
+		return globalRoles;
+	}
+
+	public void setGlobalRoles(Set<Role> globalRoles) {
+		this.globalRoles = globalRoles;
+	}
+
+	public List<ProjectRole> getProjectRoles() {
+		return projectRoles;
+	}
+
+	public void setProjectRoles(List<ProjectRole> projectRoles) {
+		this.projectRoles = projectRoles;
+	}
+
+	public Long getId() {
         return id;
     }
 
@@ -172,48 +210,48 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.langKey = langKey;
     }
 
-    public Set<Role> getAuthorities() {
-        return authorities;
+    public Set<Role> getRoles() {
+        return globalRoles;
+    }
+    /**
+     * Return all authorities that are defined globally, but NOT 
+     * project level.
+     * @return
+     */
+    public Set<String> getAllAuthorities() {
+    	return Stream.concat(
+    		getRoles().stream()
+    			.map(Role::getName), 
+			getRoles().stream()
+				.flatMap(r -> r.getOperations().stream())
+				.map(Operation::getName))
+    			.collect(Collectors.toSet());
+    }
+    
+    public Set<String> getProjectAuthorities(final Long projectId) {
+    	return this.getProjectRoles().stream()
+    		.filter(pr -> pr.getProjectId().equals(projectId))
+    		.map(ProjectRole::getRole)
+    		.map(Role::getOperations)
+    		.flatMap(Set::stream)
+    		.map(Operation::getName)
+    		.collect(Collectors.toSet());
     }
 
     public void setAuthorities(Set<Role> authorities) {
-        this.authorities = authorities;
+        this.globalRoles = authorities;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        User user = (User) o;
-
-        if (!login.equals(user.login)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return login.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", activated='" + activated + '\'' +
-                ", langKey='" + langKey + '\'' +
-                ", activationKey='" + activationKey + '\'' +
-                "}";
-    }
+	@Override
+	public String toString() {
+		return Pojomatic.toString(this);
+	}
+	@Override
+	public int hashCode() {
+		return Pojomatic.hashCode(this);
+	}
+	@Override
+	public boolean equals(Object other) {
+		return Pojomatic.equals(this, other);
+	}
 }

@@ -131,6 +131,7 @@ public class KeywordResource {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<Void> delete(@PathVariable String name) {
+    	// TODO return the entity upon delete
         log.debug("REST request to delete Keyword : {}", name);
         keywordRepository.delete(name);
         keywordSearchRepository.delete(name);

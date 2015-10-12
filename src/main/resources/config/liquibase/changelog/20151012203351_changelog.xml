@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+   <changeSet author="trevershick (generated)" id="1444682041135-1">
+      <createTable tableName="JHI_PROJECT_ROLE">
+         <column name="projectId" type="BIGINT">
+            <constraints nullable="false"/>
+         </column>
+         <column name="userId" type="BIGINT">
+            <constraints nullable="false"/>
+         </column>
+         <column name="project_id" type="BIGINT"/>
+         <column name="role_name" type="VARCHAR(12)"/>
+         <column name="user_id" type="BIGINT"/>
+      </createTable>
+   </changeSet>
+   <changeSet author="trevershick (generated)" id="1444682041135-2">
+      <addColumn tableName="JHI_AUTHORITY">
+         <column name="description" type="varchar(150)"/>
+      </addColumn>
+   </changeSet>
+   <changeSet author="trevershick (generated)" id="1444682041135-3">
+      <addColumn tableName="JHI_AUTHORITY">
+         <column name="title" type="varchar(20)"/>
+      </addColumn>
+   </changeSet>
+   <changeSet author="trevershick (generated)" id="1444682041135-4">
+      <addPrimaryKey columnNames="projectId, userId"
+                     constraintName="JHI_PROJECT_ROLEPK"
+                     tableName="JHI_PROJECT_ROLE"/>
+   </changeSet>
+   <changeSet author="trevershick (generated)" id="1444682041135-5">
+      <addForeignKeyConstraint baseColumnNames="role_name"
+                               baseTableName="JHI_PROJECT_ROLE"
+                               constraintName="FK_7b96t5h7bvtt3xx0mfuy08jx6"
+                               deferrable="false"
+                               initiallyDeferred="false"
+                               referencedColumnNames="name"
+                               referencedTableName="JHI_AUTHORITY"/>
+   </changeSet>
+   <changeSet author="trevershick (generated)" id="1444682041135-6">
+      <addForeignKeyConstraint baseColumnNames="project_id"
+                               baseTableName="JHI_PROJECT_ROLE"
+                               constraintName="FK_lvquxajw1jbs390d7el3yde7c"
+                               deferrable="false"
+                               initiallyDeferred="false"
+                               referencedColumnNames="id"
+                               referencedTableName="TESTPROJECT"/>
+   </changeSet>
+   <changeSet author="trevershick (generated)" id="1444682041135-7">
+      <addForeignKeyConstraint baseColumnNames="user_id"
+                               baseTableName="JHI_PROJECT_ROLE"
+                               constraintName="FK_nva1mqt5gjpd4yk4my80rxwt4"
+                               deferrable="false"
+                               initiallyDeferred="false"
+                               referencedColumnNames="id"
+                               referencedTableName="JHI_USER"/>
+   </changeSet>
+</databaseChangeLog>

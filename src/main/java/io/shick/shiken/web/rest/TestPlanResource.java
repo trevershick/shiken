@@ -131,6 +131,8 @@ public class TestPlanResource {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<Void> delete(@PathVariable Long id) {
+    	// TODO return the entity upon delete
+    	
         log.debug("REST request to delete TestPlan : {}", id);
         testPlanRepository.delete(id);
         testPlanSearchRepository.delete(id);

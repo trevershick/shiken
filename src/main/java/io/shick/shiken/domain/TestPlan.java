@@ -1,15 +1,21 @@
 package io.shick.shiken.domain;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.pojomatic.Pojomatic;
+import org.pojomatic.annotations.Property;
 import org.springframework.data.elasticsearch.annotations.Document;
-
-import javax.persistence.*;
-import javax.validation.constraints.*;
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Objects;
 
 
 /**
@@ -21,20 +27,30 @@ import java.util.Objects;
 @Document(indexName="testplan")
 public class TestPlan implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2610740732839255101L;
+
+	@Property
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+	@Property
     @NotNull
     @Column(name = "name", nullable = false)
     private String name;
 
+	@Property
     @Column(name = "description")
     private String description;
 
+	@Property
     @Column(name = "active")
     private Boolean active;
 
+	@Property
     @Column(name = "apikey")
     private String apikey;
 
@@ -89,35 +105,16 @@ public class TestPlan implements Serializable {
         this.parent = testProject;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-
-        TestPlan testPlan = (TestPlan) o;
-
-        if ( ! Objects.equals(id, testPlan.id)) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
-    }
-
-    @Override
-    public String toString() {
-        return "TestPlan{" +
-                "id=" + id +
-                ", name='" + name + "'" +
-                ", description='" + description + "'" +
-                ", active='" + active + "'" +
-                ", apikey='" + apikey + "'" +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return Pojomatic.toString(this);
+	}
+	@Override
+	public int hashCode() {
+		return Pojomatic.hashCode(this);
+	}
+	@Override
+	public boolean equals(Object other) {
+		return Pojomatic.equals(this, other);
+	}
 }

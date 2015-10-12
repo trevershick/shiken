@@ -1,22 +1,25 @@
 package io.shick.shiken.domain;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.pojomatic.Pojomatic;
+import org.pojomatic.annotations.PojomaticPolicy;
+import org.pojomatic.annotations.Property;
 
 /**
  * An authority (a security role) used by Spring Security.
@@ -26,13 +29,48 @@ import java.util.Set;
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Role implements Serializable {
 
-    @NotNull
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2554303810575441921L;
+
+	@Property
+	@NotNull
     @Size(min = 0, max = 50)
     @Id
-    @Column(length = 50)
+    @Column(length = 12)
     private String name;
 
-    public String getName() {
+	@Property
+	@NotNull
+    @Size(min = 4, max = 20)
+    @Column(length = 20)
+    private String title;
+
+	@Property
+    @Size(min = 0, max = 150)
+    @Column(length = 150)
+    private String description;
+
+	
+	
+    public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getName() {
         return name;
     }
 
@@ -40,43 +78,36 @@ public class Role implements Serializable {
         this.name = name;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
 
-        Role authority = (Role) o;
 
-        if (name != null ? !name.equals(authority.name) : authority.name != null) {
-            return false;
-        }
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return name != null ? name.hashCode() : 0;
-    }
-
-    @Override
-    public String toString() {
-        return "Authority{" +
-                "name='" + name + '\'' +
-                "}";
-    }
-    
-
-    @JsonIgnore
-    @ManyToMany
+	@Property(policy=PojomaticPolicy.TO_STRING)
+    @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(
             name = "JHI_ROLE_OPERATION",
             joinColumns = {@JoinColumn(name = "role_name", referencedColumnName = "name")},
             inverseJoinColumns = {@JoinColumn(name = "op_name", referencedColumnName = "name")})
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Operation> authorities = new HashSet<>();    
+    private Set<Operation> operations = new HashSet<>();
+
+	public Set<Operation> getOperations() {
+		return operations;
+	}
+
+	public void setOperations(Set<Operation> authorities) {
+		this.operations = authorities;
+	}    
+    
+
+	@Override
+	public String toString() {
+		return Pojomatic.toString(this);
+	}
+	@Override
+	public int hashCode() {
+		return Pojomatic.hashCode(this);
+	}
+	@Override
+	public boolean equals(Object other) {
+		return Pojomatic.equals(this, other);
+	}
 }

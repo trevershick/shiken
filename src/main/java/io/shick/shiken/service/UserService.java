@@ -1,14 +1,13 @@
 package io.shick.shiken.service;
 
-import io.shick.shiken.domain.Role;
-import io.shick.shiken.domain.User;
-import io.shick.shiken.repository.AuthorityRepository;
-import io.shick.shiken.repository.UserRepository;
-import io.shick.shiken.repository.search.UserSearchRepository;
-import io.shick.shiken.security.SecurityUtils;
-import io.shick.shiken.service.util.RandomUtil;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import javax.inject.Inject;
+
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,11 +15,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import io.shick.shiken.domain.Role;
+import io.shick.shiken.domain.User;
+import io.shick.shiken.repository.AuthorityRepository;
+import io.shick.shiken.repository.UserRepository;
+import io.shick.shiken.repository.search.UserSearchRepository;
+import io.shick.shiken.security.SecurityUtils;
+import io.shick.shiken.service.util.RandomUtil;
 
 /**
  * Service class for managing users.
@@ -136,7 +137,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public User getUserWithAuthorities() {
         User currentUser = userRepository.findOneByLogin(SecurityUtils.getCurrentLogin()).get();
-        currentUser.getAuthorities().size(); // eagerly load the association
+        currentUser.getRoles().size(); // eagerly load the association
         return currentUser;
     }
 

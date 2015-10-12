@@ -1,25 +1,7 @@
 package io.shick.shiken.web.rest;
 
-import com.codahale.metrics.annotation.Timed;
-import io.shick.shiken.domain.Platform;
-import io.shick.shiken.repository.PlatformRepository;
-import io.shick.shiken.repository.search.PlatformSearchRepository;
-import io.shick.shiken.web.rest.util.HeaderUtil;
-import io.shick.shiken.web.rest.util.PaginationUtil;
-import io.shick.shiken.web.rest.dto.PlatformDTO;
-import io.shick.shiken.web.rest.mapper.PlatformMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import static org.elasticsearch.index.query.QueryBuilders.queryString;
 
-import javax.inject.Inject;
-import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.LinkedList;
@@ -28,7 +10,33 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import javax.inject.Inject;
+import javax.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.codahale.metrics.annotation.Timed;
+
+import io.shick.shiken.domain.Platform;
+import io.shick.shiken.repository.PlatformRepository;
+import io.shick.shiken.repository.search.PlatformSearchRepository;
+import io.shick.shiken.web.rest.dto.PlatformDTO;
+import io.shick.shiken.web.rest.mapper.PlatformMapper;
+import io.shick.shiken.web.rest.util.HeaderUtil;
+import io.shick.shiken.web.rest.util.PaginationUtil;
 
 /**
  * REST controller for managing Platform.
@@ -130,11 +138,15 @@ public class PlatformResource {
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<PlatformDTO> delete(@PathVariable Long id) {
         log.debug("REST request to delete Platform : {}", id);
-        platformRepository.delete(id);
-        platformSearchRepository.delete(id);
-        return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("platform", id.toString())).build();
+        
+        return Optional.ofNullable(platformRepository.findOne(id))
+        			.map(p -> { platformRepository.delete(id); return p; })
+        			.map(p -> { platformSearchRepository.delete(id); return p; })
+        			.map(platformMapper::platformToPlatformDTO)
+                    .map(dto -> ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("platform", id.toString())).body(dto))
+                    .orElse(new ResponseEntity<PlatformDTO>(HttpStatus.NOT_FOUND));
     }
 
     /**
