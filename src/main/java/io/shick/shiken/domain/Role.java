@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "JHI_AUTHORITY")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Authority implements Serializable {
+public class Role implements Serializable {
 
     @NotNull
     @Size(min = 0, max = 50)
@@ -41,7 +41,7 @@ public class Authority implements Serializable {
             return false;
         }
 
-        Authority authority = (Authority) o;
+        Role authority = (Role) o;
 
         if (name != null ? !name.equals(authority.name) : authority.name != null) {
             return false;

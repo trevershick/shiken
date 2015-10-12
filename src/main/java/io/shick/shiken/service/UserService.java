@@ -1,6 +1,6 @@
 package io.shick.shiken.service;
 
-import io.shick.shiken.domain.Authority;
+import io.shick.shiken.domain.Role;
 import io.shick.shiken.domain.User;
 import io.shick.shiken.repository.AuthorityRepository;
 import io.shick.shiken.repository.UserRepository;
@@ -90,8 +90,8 @@ public class UserService {
                                       String langKey) {
 
         User newUser = new User();
-        Authority authority = authorityRepository.findOne("ROLE_USER");
-        Set<Authority> authorities = new HashSet<>();
+        Role authority = authorityRepository.findOne("ROLE_USER");
+        Set<Role> authorities = new HashSet<>();
         String encryptedPassword = passwordEncoder.encode(password);
         newUser.setLogin(login);
         // new user gets initially a generated password

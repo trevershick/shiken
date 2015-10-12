@@ -1,6 +1,6 @@
 package io.shick.shiken.security;
 
-import io.shick.shiken.domain.Authority;
+import io.shick.shiken.domain.Role;
 import io.shick.shiken.domain.User;
 import io.shick.shiken.repository.UserRepository;
 import org.slf4j.Logger;

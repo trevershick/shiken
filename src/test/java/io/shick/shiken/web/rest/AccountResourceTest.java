@@ -1,7 +1,7 @@
 package io.shick.shiken.web.rest;
 
 import io.shick.shiken.Application;
-import io.shick.shiken.domain.Authority;
+import io.shick.shiken.domain.Role;
 import io.shick.shiken.domain.User;
 import io.shick.shiken.repository.AuthorityRepository;
 import io.shick.shiken.repository.UserRepository;
@@ -110,8 +110,8 @@ public class AccountResourceTest {
 
     @Test
     public void testGetExistingAccount() throws Exception {
-        Set<Authority> authorities = new HashSet<>();
-        Authority authority = new Authority();
+        Set<Role> authorities = new HashSet<>();
+        Role authority = new Role();
         authority.setName(AuthoritiesConstants.ADMIN);
         authorities.add(authority);
 

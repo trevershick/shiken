@@ -1,7 +1,7 @@
 package io.shick.shiken.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import io.shick.shiken.domain.Authority;
+import io.shick.shiken.domain.Role;
 import io.shick.shiken.domain.User;
 import io.shick.shiken.repository.UserRepository;
 import io.shick.shiken.security.SecurityUtils;
@@ -113,7 +113,7 @@ public class AccountResource {
                         user.getLastName(),
                         user.getEmail(),
                         user.getLangKey(),
-                        user.getAuthorities().stream().map(Authority::getName)
+                        user.getAuthorities().stream().map(Role::getName)
                             .collect(Collectors.toList())),
                 HttpStatus.OK);
             })
