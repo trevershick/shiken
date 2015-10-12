@@ -81,8 +81,8 @@
 
   function MainController($scope) {
     $scope.infoBoxes = [
-      { title: "Assigned Cases", value: 93, icon:'ion-ios-gear-outline', color:'bg-aqua' },
-      { title: "Project Count", value: 3, icon:'ion-ios-gear-outline', color:'bg-blue' }
+      { title: "Assigned Cases", value: 93, icon:'ion ion-ios-gear-outline', color:'bg-aqua' },
+      { title: "Project Count", value: 3, icon:'ion ion-ios-gear-outline', color:'bg-blue' }
     ];
     return this;
   };
@@ -100,7 +100,7 @@
         value: '='
       },
       template : '<div class="info-box">' +
-          '<span class="info-box-icon" ng-class="color"><i ng-class="icon" class="ion"></i></span>' +
+          '<span class="info-box-icon" ng-class="color"><i ng-class="icon"></i></span>' +
           '<div class="info-box-content">' +
             '<span class="info-box-text" ng-bind="title"></span>' +
             '<span class="info-box-number" ng-bind="value"></span>' +

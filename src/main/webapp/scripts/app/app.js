@@ -72,6 +72,9 @@ angular.module('shikenApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalp
         $stateProvider.state('site', {
             'abstract': true,
             views: {
+              'contentHeader@': {
+                templateUrl: 'scripts/components/navbar/lte-header.html'
+              }
                 /*'navbar@': {
                     templateUrl: 'scripts/components/navbar/navbar.html',
                     controller: 'NavbarController'

@@ -1,6 +1,6 @@
 {
     "tracker": {
-        "title": "Real-time user activities",
+        "title": "Tracker",
         "table": {
             "userlogin": "User",
             "ipaddress": "IP Address",

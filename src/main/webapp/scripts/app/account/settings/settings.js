@@ -11,6 +11,9 @@ angular.module('shikenApp')
                     pageTitle: 'global.menu.account.settings'
                 },
                 views: {
+                    'contentHeader@': {
+                      template: ''
+                    },
                     'content@': {
                         templateUrl: 'scripts/app/account/settings/settings.html',
                         controller: 'SettingsController'

@@ -11,6 +11,9 @@ angular.module('shikenApp')
                     pageTitle: 'global.menu.account.password'
                 },
                 views: {
+                  'contentHeader@': {
+                    template: ''
+                  },
                     'content@': {
                         templateUrl: 'scripts/app/account/password/password.html',
                         controller: 'PasswordController'
