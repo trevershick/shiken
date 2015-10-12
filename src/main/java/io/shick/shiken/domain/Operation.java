@@ -11,7 +11,8 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.pojomatic.annotations.Property;
+import org.pojomatic.Pojomatic;
+import org.pojomatic.annotations.AutoProperty;
 
 /**
  * An authority (a security role) used by Spring Security.
@@ -19,6 +20,7 @@ import org.pojomatic.annotations.Property;
 @Entity
 @Table(name = "JHI_OPERATION")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@AutoProperty
 public class Operation implements Serializable {
 	
 	/**
@@ -28,7 +30,6 @@ public class Operation implements Serializable {
 
 
 	@Id
-	@Property
 	@NotNull
     @Size(min = 0, max = 15)
     @Column(length = 15)
@@ -79,5 +80,17 @@ public class Operation implements Serializable {
 		this.groupName = groupName;
 	}
 	
+	@Override
+	public String toString() {
+		return Pojomatic.toString(this);
+	}
+	@Override
+	public int hashCode() {
+		return Pojomatic.hashCode(this);
+	}
+	@Override
+	public boolean equals(Object other) {
+		return Pojomatic.equals(this, other);
+	}
 
 }

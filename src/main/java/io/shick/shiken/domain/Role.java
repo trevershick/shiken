@@ -2,13 +2,21 @@ package io.shick.shiken.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * An authority (a security role) used by Spring Security.
@@ -61,4 +69,14 @@ public class Role implements Serializable {
                 "name='" + name + '\'' +
                 "}";
     }
+    
+
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "JHI_ROLE_OPERATION",
+            joinColumns = {@JoinColumn(name = "role_name", referencedColumnName = "name")},
+            inverseJoinColumns = {@JoinColumn(name = "op_name", referencedColumnName = "name")})
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Operation> authorities = new HashSet<>();    
 }

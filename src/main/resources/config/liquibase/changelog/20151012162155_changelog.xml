@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+	<changeSet author="trevershick" id="20151012162155">
+		<createTable tableName="JHI_ROLE_OPERATION">
+			<column name="role_name" type="varchar(50)">
+				<constraints nullable="false" />
+			</column>
+			<column name="op_name" type="varchar(50)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<addPrimaryKey columnNames="role_name, op_name"
+			tableName="JHI_ROLE_OPERATION" />
+
+	</changeSet>
+	<changeSet author="trevershick" id="20151012162155-2">
+ 
+ 		<addForeignKeyConstraint baseColumnNames="op_name"
+			baseTableName="JHI_ROLE_OPERATION" constraintName="fk_op_name"
+			referencedColumnNames="name" referencedTableName="JHI_OPERATION" />
+
+		<addForeignKeyConstraint baseColumnNames="role_name"
+			baseTableName="JHI_ROLE_OPERATION" constraintName="fk_role_nm"
+			referencedColumnNames="name" referencedTableName="JHI_AUTHORITY" />
+	</changeSet>
+</databaseChangeLog>

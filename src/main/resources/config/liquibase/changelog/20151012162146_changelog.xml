@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+   <changeSet author="trevershick (generated)" id="1444666914688-1">
+      <createTable tableName="JHI_OPERATION">
+         <column name="name" type="VARCHAR(15)">
+            <constraints nullable="false"/>
+         </column>
+         <column name="description" type="VARCHAR(255)"/>
+         <column name="groupName" type="VARCHAR(255)"/>
+         <column name="title" type="VARCHAR(25)"/>
+      </createTable>
+   </changeSet>
+   <changeSet author="trevershick (generated)" id="1444666914688-2">
+      <addPrimaryKey columnNames="name"
+                     constraintName="JHI_OPERATIONPK"
+                     tableName="JHI_OPERATION"/>
+   </changeSet>
+</databaseChangeLog>
