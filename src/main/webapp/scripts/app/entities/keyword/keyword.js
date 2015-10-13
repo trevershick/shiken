@@ -1,13 +1,14 @@
 'use strict';
 
-angular.module('shikenApp')
-    .config(function ($stateProvider) {
+
+var app = angular.module('shikenApp');
+app.config(function ($stateProvider) {
         $stateProvider
             .state('keyword', {
                 parent: 'entity',
                 url: '/keywords',
                 data: {
-                    roles: ['ROLE_ADMIN'],
+                    roles: ["OP_KEYWORD_*"],
                     pageTitle: 'shikenApp.keyword.home.title'
                 },
                 views: {
@@ -28,7 +29,7 @@ angular.module('shikenApp')
                 parent: 'entity',
                 url: '/keyword/{id}',
                 data: {
-                    roles: ['ROLE_ADMIN'],
+                    roles: ['OP_KEYWORD_VW'],
                     pageTitle: 'shikenApp.keyword.detail.title'
                 },
                 views: {
@@ -51,7 +52,7 @@ angular.module('shikenApp')
                 parent: 'keyword',
                 url: '/new',
                 data: {
-                    roles: ['ROLE_ADMIN'],
+                    roles: ['OP_KEYWORD_CR'],
                 },
                 onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
                     $modal.open({
@@ -74,13 +75,36 @@ angular.module('shikenApp')
                 parent: 'keyword',
                 url: '/{id}/edit',
                 data: {
-                    roles: ['ROLE_ADMIN'],
+                    roles: ['OP_KEYWORD_ED'],
                 },
                 onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
                     $modal.open({
                         templateUrl: 'scripts/app/entities/keyword/keyword-dialog.html',
                         controller: 'KeywordDialogController',
                         size: 'lg',
+                        resolve: {
+                            entity: ['Keyword', function(Keyword) {
+                                return Keyword.get({id : $stateParams.id});
+                            }]
+                        }
+                    }).result.then(function(result) {
+                        $state.go('keyword', null, { reload: true });
+                    }, function() {
+                        $state.go('^');
+                    })
+                }]
+            })
+            .state('keyword.delete', {
+                parent: 'keyword',
+                url: '/{id}/delete',
+                data: {
+                    roles: ['OP_KEYWORD_DL'],
+                },
+                onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
+                    $modal.open({
+                        templateUrl: 'scripts/app/entities/keyword/keyword-delete.html',
+                        controller: 'KeywordDialogController',
+                        size: 'sm',
                         resolve: {
                             entity: ['Keyword', function(Keyword) {
                                 return Keyword.get({id : $stateParams.id});

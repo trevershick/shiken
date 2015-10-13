@@ -8,12 +8,15 @@
 
 </h4>
     </div>
-    <div class="modal-body">
-        <div class="form-group">
+    <div class="modal-body" ng-hide="!! role.$new">
+      <div class="form-group">
+        <label for="id" >Name</label>
+        <span class="form-control uneditable-input" ng-bind="role.name"></span>
+      </div>
+        <div class="form-group" ng-show="!!role.$new">
             <label for="id" >Name</label>
             <input type="text" class="form-control" id="name" name="name"
                     ng-model="role.name" required ng-pattern="/[A-Z_]+/" ng-minlength="5" ng-maxlength="25"></input>
-            <span class="form-control uneditable-input" ng-hide="role.$new" ng-bind="role.name"></span>
             <div ng-show="editForm.name.$invalid">
                 <p class="help-block"
                     ng-show="editForm.name.$error.required" >

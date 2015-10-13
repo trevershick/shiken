@@ -121,7 +121,9 @@ app.controller('RoleDetailController', function ($scope, $rootScope, $stateParam
     $scope.hasOperation = function(op) {
       return _.some($scope.role.operations, {name: op.name});
     };
-    $rootScope.$on('shikenApp:roleUpdate', function(event, result) {
+    var unsubscribe = $rootScope.$on('shikenApp:roleUpdate', function(event, result) {
         $scope.role = result;
     });
+    $scope.$on('$destroy', unsubscribe);
+    
 });

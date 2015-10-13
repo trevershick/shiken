@@ -5,7 +5,7 @@
         <h3 class="box-title">Manage Keywords</h3>
         <div class="box-tools">
           <div class="form-inline">
-              <button class="btn btn-primary btn-sm" ui-sref="keyword.new">
+              <button has-role="OP_KEYWORD_CR" class="btn btn-primary btn-sm" ui-sref="keyword.new">
                   <span translate="shikenApp.keyword.home.createLabel">Create a new Keyword</span>
               </button>
 
@@ -37,18 +37,13 @@
                     <td>{{keyword.description}}</td>
                     <td>
                       <div class="btn-group pull-right">
-                        <!--<button type="submit"
-                                ui-sref="keyword.detail({id:keyword.name})"
-                                class="btn btn-info btn-sm">
-                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
-                        </button>-->
-                        <button type="submit"
+                        <button has-role="OP_KEYWORD_ED" type="submit"
                                 ui-sref="keyword.edit({id:keyword.name})"
                                 class="btn btn-primary btn-xs">
                             <span class="glyphicon glyphicon-pencil"></span><!--&nbsp;<span translate="entity.action.edit"> Edit</span>-->
                         </button>
-                        <button type="submit"
-                                ng-click="delete(keyword.name)"
+                        <button has-role="OP_KEYWORD_DL" type="submit"
+                                ui-sref="keyword.delete({id:keyword.name})"
                                 class="btn btn-danger btn-xs">
                             <span class="glyphicon glyphicon-remove-circle"></span><!--&nbsp;<span translate="entity.action.delete"> Delete</span>-->
                         </button>
@@ -65,32 +60,4 @@
 
     </div>
   </div>
-</div>
-
-
-
-
-<div class="modal fade modal-danger" id="deleteKeywordConfirmation">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form name="deleteForm" ng-submit="confirmDelete(keyword.name)">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
-                            ng-click="clear()">&times;</button>
-                    <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
-                </div>
-                <div class="modal-body">
-                    <p translate="shikenApp.keyword.delete.question" translate-values="{id: '{{keyword.name}}'}">Are you sure you want to delete this Keyword?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
-                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
-                    </button>
-                    <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
-                        <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
 </div>

@@ -43,11 +43,9 @@ angular.module('shikenApp')
                         element.addClass('hidden');
                     },
                     defineVisibility = function (reset) {
-
                         if (reset) {
                             setVisible();
                         }
-
                         Principal.identity(role)
                             .then(function() {
                                 if (Principal.isInRole(role)) {
@@ -58,7 +56,9 @@ angular.module('shikenApp')
                             });
                     },
                     role = attrs.hasRole.replace(/\s+/g, '');
-
+                scope.$watch(Principal.isIdentityResolved, function() {
+                  defineVisibility(true);
+                });
                 if (role.length > 0) {
                     defineVisibility(true);
                 }
