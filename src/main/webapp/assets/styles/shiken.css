@@ -45,3 +45,6 @@ div.info-box.bg-green a {
 .hand {
   cursor:pointer;
 }
+.uneditable-input {
+  border:none;
+}
