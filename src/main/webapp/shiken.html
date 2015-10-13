@@ -88,18 +88,22 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li ui-sref-active="active" ><a ui-sref="testProject">
+                <li ui-sref-active="active" has-role="OP_PROJECT_*"><a ui-sref="testProject">
                   <i class="fa fa-circle-o"></i> Test Project</a></li>
                 </li>
-                <li ui-sref-active="active" ><a ui-sref="platform">
+                <li ui-sref-active="active" has-role="OP_PLATFORM_*"><a ui-sref="platform">
                   <i class="fa fa-circle-o"></i> <span translate="global.menu.entities.platform">Platforms</span></a></li>
                 </li>
-                <li ui-sref-active="active" ><a ui-sref="keyword">
+                <li ui-sref-active="active" has-role="OP_KEYWORD_*"><a ui-sref="keyword">
                   <i class="fa fa-circle-o"></i> <span translate="global.menu.entities.keyword">Keywords</span></a></li>
                 </li>
-                <li ui-sref-active="active" ><a ui-sref="keyword">
+                <li ui-sref-active="active" has-role="OP_USERS_MG"><a ui-sref="users">
                   <i class="fa fa-users"></i> Users</a></li>
                 </li>
+                <li ui-sref-active="active"><a ui-sref="role">
+                  <i class="fa fa-users"></i> Roles</a></li>
+                </li>
+
               </ul>
             </li>
             <li class="treeview ng-cloak" ng-class="{active: $state.includes('projects')}" ng-show="isUser()">
@@ -522,6 +526,11 @@
         <script src="scripts/app/entities/testPlan/testPlan-detail.controller.js"></script>
         <script src="scripts/components/entities/testPlan/testPlan.service.js"></script>
         <script src="scripts/components/entities/testPlan/testPlan.search.service.js"></script>
+
+        <script src="scripts/app/entities/operation/operation.js"></script>
+
+        <script src="scripts/app/entities/role/role.js"></script>
+        <script src="scripts/app/entities/role/role.controller.js"></script>
 
 
         <script src="scripts/app/entities/keyword/keyword.js"></script>

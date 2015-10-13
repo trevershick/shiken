@@ -13,6 +13,8 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -98,7 +100,13 @@ public class OperationResource {
     public ResponseEntity<List<OperationDTO>> getAll(@RequestParam(value = "page" , required = false) Integer offset,
                                   @RequestParam(value = "per_page", required = false) Integer limit)
         throws URISyntaxException {
-        Page<Operation> page = operationRepository.findAll(PaginationUtil.generatePageRequest(offset, limit));
+    	Pageable p = null;
+    	if (limit != null && limit.intValue() < 0) {
+    		p = new PageRequest(0, Integer.MAX_VALUE);
+    	} else {
+    		p = PaginationUtil.generatePageRequest(offset, limit);
+    	}
+        Page<Operation> page = operationRepository.findAll(p);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/operations", offset, limit);
         return new ResponseEntity<>(page.getContent().stream()
             .map(operationMapper::operationToOperationDto)

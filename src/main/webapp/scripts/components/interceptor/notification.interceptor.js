@@ -10,7 +10,6 @@ angular.module('shikenApp')
                   if (response.data) {
                     params = response.data;
                   }
-                  debugger;
                   AlertService.success(alertKey, params);
                 }
                 return response;

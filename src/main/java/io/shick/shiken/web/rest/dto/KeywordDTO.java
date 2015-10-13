@@ -1,13 +1,18 @@
 package io.shick.shiken.web.rest.dto;
 
-import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.util.Objects;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.pojomatic.Pojomatic;
+import org.pojomatic.annotations.AutoProperty;
 
 
 /**
  * A DTO for the Keyword entity.
  */
+@AutoProperty
 public class KeywordDTO implements Serializable {
 
     @NotNull
@@ -33,31 +38,17 @@ public class KeywordDTO implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+	public String toString() {
+		return Pojomatic.toString(this);
+	}
 
-        KeywordDTO keywordDTO = (KeywordDTO) o;
+	@Override
+	public int hashCode() {
+		return Pojomatic.hashCode(this);
+	}
 
-        if ( ! Objects.equals(name, keywordDTO.name)) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(name);
-    }
-
-    @Override
-    public String toString() {
-        return "KeywordDTO{" +
-                ", name='" + name + "'" +
-                ", description='" + description + "'" +
-                '}';
-    }
+	@Override
+	public boolean equals(Object other) {
+		return Pojomatic.equals(this, other);
+	}
 }

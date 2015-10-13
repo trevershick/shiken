@@ -1,0 +1,99 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="box">
+      <div class="box-header">
+        <h3 class="box-title">Manage Roles</h3>
+        <div class="box-tools">
+          <div class="form-inline">
+              <button class="btn btn-primary btn-sm" ui-sref="role.new">
+                  <span>Create a new Role</span>
+              </button>
+
+              <input type="text" class="form-control input-sm" ng-model="searchQuery" id="searchQuery" placeholder="query">
+              <button class="btn btn-info btn-sm" ng-click="search()"><span class="glyphicon glyphicon-search"></span></button>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="box-body table-responsive no-padding">
+
+        <table class="table table-striped table-condensed">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Op Count</th>
+                    <th>Description</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tr ng-if="roles.length == 0">
+              <td><span>No Records...</span></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tbody infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page">
+                <tr ng-repeat="role in roles">
+                    <td><a ui-sref="role.detail({id:role.name})">{{role.title}}</a></td>
+                    <td><span ng-bind="role.operations.length"></span></td>
+                    <td>{{role.description}}</td>
+                    <td>
+                      <div class="btn-group pull-right">
+                        <!--<button type="submit"
+                                ui-sref="role.detail({id:role.name})"
+                                class="btn btn-info btn-sm">
+                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+                        </button>-->
+                        <button type="submit"
+                                ui-sref="role.edit({id:role.name})"
+                                class="btn btn-primary btn-xs">
+                            <span class="glyphicon glyphicon-pencil"></span><!--&nbsp;<span translate="entity.action.edit"> Edit</span>-->
+                        </button>
+                        <button type="submit"
+                                ng-click="delete(role.name)"
+                                class="btn btn-danger btn-xs">
+                            <span class="glyphicon glyphicon-remove-circle"></span><!--&nbsp;<span translate="entity.action.delete"> Delete</span>-->
+                        </button>
+                      </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
+
+      <div class="box-footer">
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="modal fade modal-danger" id="deleteRoleConfirmation">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="deleteForm" ng-submit="confirmDelete(role.name)">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                            ng-click="clear()">&times;</button>
+                    <h4 class="modal-title">Confirm delete operation</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this Role?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+                    </button>
+                    <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                        <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span>Delete</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

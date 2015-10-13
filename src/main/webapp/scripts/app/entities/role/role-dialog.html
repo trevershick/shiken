@@ -1,0 +1,98 @@
+
+<form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="clear()">&times;</button>
+        <h4 class="modal-title" id="myRoleLabel" >Create or Edit a Role
+
+</h4>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="id" >Name</label>
+            <input type="text" class="form-control" id="name" name="name"
+                    ng-model="role.name" required ng-pattern="/[A-Z_]+/" ng-minlength="5" ng-maxlength="25"></input>
+            <span class="form-control uneditable-input" ng-hide="role.$new" ng-bind="role.name"></span>
+            <div ng-show="editForm.name.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.name.$error.required" >
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.name.$error.pattern" >
+                    This field must match A-Z_
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.name.$error.minlength" >
+                    This field is required to be at least 5 characters.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.name.$error.maxlength" >
+                    This field cannot be longer than 25 characters.
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="field_name">Title</label>
+            <input type="text" class="form-control" name="title" id="title"
+                    ng-model="role.title"
+                    required ng-minlength="5" ng-maxlength="20">
+
+            <div ng-show="editForm.title.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.title.$error.required" >
+                    This field is required.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.title.$error.minlength" >
+                    This field is required to be at least 2 characters.
+                </p>
+                <p class="help-block"
+                    ng-show="editForm.title.$error.maxlength" >
+                    This field cannot be longer than 20 characters.
+                </p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label  for="field_description">Description</label>
+            <input type="text" class="form-control" name="description" id="field_description"
+                    ng-model="role.description">
+        </div>
+
+          <h3>Permissions</h3>
+        <div class="row">
+          <div class="col-lg-6 col-md-6" ng-repeat="group in groups">
+              <div class="box box-default">
+                <div class="box-header with-border">
+                  <h3 class="box-title">{{group}}</h3>
+                  <div class="box-tools pull-right">
+                    <span class="badge">{{ selectedCount(group) }} / {{ groupedOperations[group].length }}</span>
+                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                  </div><!-- /.box-tools -->
+                </div><!-- /.box-header -->
+                <div class="box-body" style="display: block;">
+                  <div ng-repeat="op in groupedOperations[group]">
+                    <span ng-switch="hasOperation(op)">
+                      <span style="cursor:pointer;" ng-switch-when="true" ng-click="removeOperation(op)"><i class="fa fa-fw fa-check-circle"></i></span>
+                      <span style="cursor:pointer;" ng-switch-when="false" ng-click="addOperation(op)"><i class="fa fa-fw fa-circle-thin"></i></span>
+                    </span>
+                    {{op.title}}
+                  </div>
+
+                </div><!-- /.box-body -->
+              </div><!-- /.box -->
+            </div>
+
+          </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span >Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || editForm.$submitted" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span >Save</span>
+        </button>
+    </div>
+</form>

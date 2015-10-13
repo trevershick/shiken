@@ -48,9 +48,9 @@ angular.module('shikenApp')
                             setVisible();
                         }
 
-                        Principal.isInRole(role)
-                            .then(function(result) {
-                                if (result) {
+                        Principal.identity(role)
+                            .then(function() {
+                                if (Principal.isInRole(role)) {
                                     setVisible();
                                 } else {
                                     setHidden();

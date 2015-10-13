@@ -42,7 +42,18 @@ angular.module('shikenApp')
               if (!_authenticated || !_identity || !_identity.roles) {
                 return false;
               }
-              return _.contains(_identity.roles,role);
+
+              var eq = function(r) {
+                return r === role;
+              };
+              if (role.indexOf("*") > -1) {
+                role = role.replace("*", ".*");
+                eq = function(r) {
+                  return !!r.match(role)
+                }
+              }
+
+              return _.some(_identity.roles, eq);
             },
             isInAnyRole: function (roles) {
               return (roles.length == 0) || _.some(roles, this.isInRole);

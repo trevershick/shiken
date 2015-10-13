@@ -55,6 +55,9 @@ public class Role implements Serializable {
 	
 	
     public String getTitle() {
+    	if (title == null) {
+    		setTitle(getName());
+    	}
 		return title;
 	}
 
