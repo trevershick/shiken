@@ -27,4 +27,14 @@ angular.module('shikenApp').controller('KeywordDialogController',
         $scope.clear = function() {
             $modalInstance.dismiss('cancel');
         };
+
+
+                $scope.confirmDelete = function (id) {
+                    Keyword.delete({id: id},
+                        function () {
+                            $scope.reset();
+                            $('#deleteKeywordConfirmation').modal('hide');
+                            $scope.clear();
+                        });
+                };
 }]);

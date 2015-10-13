@@ -8,7 +8,8 @@ angular.module('shikenApp')
                 $scope.testPlan = result;
             });
         };
-        $rootScope.$on('shikenApp:testPlanUpdate', function(event, result) {
+        var unsubscribe = $rootScope.$on('shikenApp:testPlanUpdate', function(event, result) {
             $scope.testPlan = result;
         });
+        $scope.$on('$destroy', unsubscribe);
     });

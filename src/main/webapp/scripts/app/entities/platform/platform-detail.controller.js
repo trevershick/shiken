@@ -8,7 +8,8 @@ angular.module('shikenApp')
                 $scope.platform = result;
             });
         };
-        $rootScope.$on('shikenApp:platformUpdate', function(event, result) {
+        var unsubscribe = $rootScope.$on('shikenApp:platformUpdate', function(event, result) {
             $scope.platform = result;
         });
+        $scope.$on('$destroy', unsubscribe);
     });

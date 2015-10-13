@@ -8,7 +8,8 @@ angular.module('shikenApp')
                 $scope.keyword = result;
             });
         };
-        $rootScope.$on('shikenApp:keywordUpdate', function(event, result) {
+        var unsubscribe = $rootScope.$on('shikenApp:keywordUpdate', function(event, result) {
             $scope.keyword = result;
         });
+        $scope.$on('$destroy', unsubscribe);
     });
