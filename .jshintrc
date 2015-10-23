@@ -2,7 +2,7 @@
     "node": true,
     "esnext": true,
     "bitwise": true,
-    "camelcase": true,
+    "camelcase": false,
     "curly": true,
     "eqeqeq": true,
     "immed": true,
@@ -18,5 +18,5 @@
     "trailing": true,
     "smarttabs": true,
     "white": true,
-    "predef": ["angular"]
+    "predef": ["angular","_","$"]
 }

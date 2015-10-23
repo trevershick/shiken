@@ -63,11 +63,11 @@ angular.module('shikenApp')
                                 return {name: null, description: null, id: null};
                             }
                         }
-                    }).result.then(function(result) {
+                    }).result.then(function() {
                         $state.go('platform', null, { reload: true });
                     }, function() {
                         $state.go('platform');
-                    })
+                    });
                 }]
             })
             .state('platform.edit', {
@@ -86,11 +86,34 @@ angular.module('shikenApp')
                                 return Platform.get({id : $stateParams.id});
                             }]
                         }
-                    }).result.then(function(result) {
+                    }).result.then(function() {
                         $state.go('platform', null, { reload: true });
                     }, function() {
                         $state.go('^');
-                    })
+                    });
+                }]
+            })
+            .state('platform.delete', {
+                parent: 'platform',
+                url: '/{id}/delete',
+                data: {
+                    roles: ['OP_KEYWORD_DL'],
+                },
+                onEnter: ['$stateParams', '$state', '$modal', function($stateParams, $state, $modal) {
+                    $modal.open({
+                        templateUrl: 'scripts/app/entities/platform/platform-delete.html',
+                        controller: 'PlatformDialogController',
+                        size: 'sm',
+                        resolve: {
+                            entity: ['Keyword', function(Platform) {
+                                return Platform.get({id : $stateParams.id});
+                            }]
+                        }
+                    }).result.then(function() {
+                        $state.go('platform', null, { reload: true });
+                    }, function() {
+                        $state.go('^');
+                    });
                 }]
             });
     });

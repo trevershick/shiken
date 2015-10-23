@@ -15,16 +15,16 @@ angular.module('shikenApp')
       };
       this.convertLocaleDateFromServer = function(date) {
         if (date) {
-          var dateString = date.split("-");
+          var dateString = date.split('-');
           return new Date(dateString[0], dateString[1] - 1, dateString[2]);
         }
         return null;
       };
       this.convertDateTimeFromServer = function(date) {
         if (date) {
-          return new Date(date);   
+          return new Date(date);
         } else {
           return null;
         }
-      }
+      };
     });

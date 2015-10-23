@@ -4,7 +4,7 @@ var ignoreHealth503 = function(response) {
   return (response.data && response.data.status === 'DOWN' && response.status === 503);
 };
 var ignoreAccount401 = function(response) {
-  return (response.status == 401 && response.data.path.indexOf("/api/account") == 0);
+  return (response.status === 401 && response.data.path.indexOf('/api/account') === 0);
 };
 var ignoreHttpErrors = [ ignoreHealth503, ignoreAccount401 ];
 

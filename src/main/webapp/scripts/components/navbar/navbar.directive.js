@@ -31,7 +31,7 @@
   CurrentUserBlockController.$inject = ['$scope','Principal'];
 
 
-  CurrentUserBlockController.prototype.onIdChanged = function(newValue, oldValue) {
+  CurrentUserBlockController.prototype.onIdChanged = function() {
     this.__scope.fullName = this.__principal.fullName();
     this.__scope.profileImageUrl = this.__principal.gravatarImageUrl();
   };

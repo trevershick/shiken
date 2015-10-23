@@ -17,7 +17,7 @@ angular.module('shikenApp').controller('TestProjectDialogController',
         };
 
         $scope.save = function () {
-            if ($scope.testProject.id != null) {
+            if ($scope.testProject.id !== null) {
                 TestProject.update($scope.testProject, onSaveFinished);
             } else {
                 TestProject.save($scope.testProject, onSaveFinished);

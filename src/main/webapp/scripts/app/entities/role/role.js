@@ -66,11 +66,11 @@ app.config(function ($stateProvider) {
                     return Operation.query({per_page:-1});
                   }]
               }
-          }).result.then(function(result) {
+          }).result.then(function() {
               $state.go('role', null, { reload: true });
           }, function() {
               $state.go('role');
-          })
+          });
       }]
   })
   .state('role.edit', {
@@ -92,16 +92,16 @@ app.config(function ($stateProvider) {
                     return Operation.query({per_page:-1});
                   }]
               }
-          }).result.then(function(result) {
+          }).result.then(function() {
               $state.go('role', null, { reload: true });
           }, function() {
               $state.go('^');
-          })
+          });
       }]
   });
 });
 
-app.factory('Role', function ($resource, DateUtils) {
+app.factory('Role', function ($resource) {
     return $resource('api/roles/:id', {}, {
         'query': { method: 'GET', isArray: true },
         'get': {

@@ -63,11 +63,11 @@ angular.module('shikenApp')
                                 return {name: null, description: null, prefix: null, active: null, id: null};
                             }
                         }
-                    }).result.then(function(result) {
+                    }).result.then(function() {
                         $state.go('testProject', null, { reload: true });
                     }, function() {
                         $state.go('testProject');
-                    })
+                    });
                 }]
             })
             .state('testProject.edit', {
@@ -86,11 +86,11 @@ angular.module('shikenApp')
                                 return TestProject.get({id : $stateParams.id});
                             }]
                         }
-                    }).result.then(function(result) {
+                    }).result.then(function() {
                         $state.go('testProject', null, { reload: true });
                     }, function() {
                         $state.go('^');
-                    })
+                    });
                 }]
             });
     });

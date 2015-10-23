@@ -39,7 +39,7 @@ angular.module('shikenApp', ['LocalStorageModule', 'tmh.dynamicLocale', 'pascalp
 
         });
 
-        $rootScope.isUser = function() { return Principal.isUser(); }
+        $rootScope.isUser = function() { return Principal.isUser(); };
         $rootScope.back = function() {
             // If previous state is 'activate' or do not exist go to 'home'
             if ($rootScope.previousStateName === 'activate' || $state.get($rootScope.previousStateName) === null) {

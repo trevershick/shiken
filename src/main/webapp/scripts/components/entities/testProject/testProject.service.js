@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('shikenApp')
-    .factory('TestProject', function ($resource, DateUtils) {
+    .factory('TestProject', function ($resource) {
         return $resource('api/testProjects/:id', {}, {
             'query': { method: 'GET', isArray: true},
             'get': {

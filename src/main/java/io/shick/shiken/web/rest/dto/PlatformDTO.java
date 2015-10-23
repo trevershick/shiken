@@ -14,21 +14,11 @@ import org.pojomatic.annotations.AutoProperty;
 @AutoProperty
 public class PlatformDTO implements Serializable {
 
-	private Long id;
-
 	@NotNull
 	@Size(min = 2, max = 8)
 	private String name;
 
 	private String description;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;

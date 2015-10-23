@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('shikenApp')
-    .controller('TestPlanDetailController', function ($scope, $rootScope, $stateParams, entity, TestPlan, TestProject) {
+    .controller('TestPlanDetailController', function ($scope, $rootScope, $stateParams, entity, TestPlan) {
         $scope.testPlan = entity;
         $scope.load = function (id) {
             TestPlan.get({id: id}, function(result) {

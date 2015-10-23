@@ -1,8 +1,7 @@
 'use strict';
 
-var app = angular.module('shikenApp');
-
-app.factory('Operation', function ($resource, DateUtils) {
+angular.module('shikenApp')
+.factory('Operation', [ '$resource', function ($resource) {
     return $resource('api/operations/:id', {}, {
         'query': { method: 'GET', isArray: true},
         'get': {
@@ -14,4 +13,4 @@ app.factory('Operation', function ($resource, DateUtils) {
         },
         'update': { method:'PUT' }
     });
-});
+}]);

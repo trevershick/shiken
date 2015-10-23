@@ -17,7 +17,7 @@ angular.module('shikenApp').controller('KeywordDialogController',
         };
 
         $scope.save = function () {
-            if ($scope.keyword.id != null) {
+            if ($scope.keyword.id !== null) {
                 Keyword.update($scope.keyword, onSaveFinished);
             } else {
                 Keyword.save($scope.keyword, onSaveFinished);

@@ -1,3 +1,4 @@
+/* globals Chart */
 'use strict';
 (function(){
 
@@ -5,30 +6,30 @@
     return {
       restrict:'A',
       replace: true,
-      link: function(scope, element, attr) {
-        var salesChartCanvas = $(element).get(0).getContext("2d");
+      link: function(scope, element) {
+        var salesChartCanvas = $(element).get(0).getContext('2d');
         var salesChart = new Chart(salesChartCanvas);
         var salesChartData = {
-          labels: ["January", "February", "March", "April", "May", "June", "July"],
+          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
           datasets: [
             {
-              label: "Electronics",
-              fillColor: "rgb(210, 214, 222)",
-              strokeColor: "rgb(210, 214, 222)",
-              pointColor: "rgb(210, 214, 222)",
-              pointStrokeColor: "#c1c7d1",
-              pointHighlightFill: "#fff",
-              pointHighlightStroke: "rgb(220,220,220)",
+              label: 'Electronics',
+              fillColor: 'rgb(210, 214, 222)',
+              strokeColor: 'rgb(210, 214, 222)',
+              pointColor: 'rgb(210, 214, 222)',
+              pointStrokeColor: '#c1c7d1',
+              pointHighlightFill: '#fff',
+              pointHighlightStroke: 'rgb(220,220,220)',
               data: [65, 59, 80, 81, 56, 55, 40]
             },
             {
-              label: "Digital Goods",
-              fillColor: "rgba(60,141,188,0.9)",
-              strokeColor: "rgba(60,141,188,0.8)",
-              pointColor: "#3b8bba",
-              pointStrokeColor: "rgba(60,141,188,1)",
-              pointHighlightFill: "#fff",
-              pointHighlightStroke: "rgba(60,141,188,1)",
+              label: 'Digital Goods',
+              fillColor: 'rgba(60,141,188,0.9)',
+              strokeColor: 'rgba(60,141,188,0.8)',
+              pointColor: '#3b8bba',
+              pointStrokeColor: 'rgba(60,141,188,1)',
+              pointHighlightFill: '#fff',
+              pointHighlightStroke: 'rgba(60,141,188,1)',
               data: [28, 48, 40, 19, 86, 27, 90]
             }
           ]
@@ -40,7 +41,7 @@
           //Boolean - Whether grid lines are shown across the chart
           scaleShowGridLines: false,
           //String - Colour of the grid lines
-          scaleGridLineColor: "rgba(0,0,0,.05)",
+          scaleGridLineColor: 'rgba(0,0,0,.05)',
           //Number - Width of the grid lines
           scaleGridLineWidth: 1,
           //Boolean - Whether to show horizontal lines (except X axis)
@@ -66,7 +67,7 @@
           //Boolean - Whether to fill the dataset with a color
           datasetFill: true,
           //String - A legend template
-          legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%=datasets[i].name%></li><%}%></ul>",
+          legendTemplate: '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].lineColor%>"></span><%=datasets[i].name%></li><%}%></ul>',
           //Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
           maintainAspectRatio: true,
           //Boolean - whether to make the chart responsive to window resizing
@@ -77,15 +78,15 @@
         salesChart.Bar(salesChartData, salesChartOptions);
       }
     };
-  };
+  }
 
   function MainController($scope) {
     $scope.infoBoxes = [
-      { title: "Assigned Cases", value: 93, icon:'ion ion-ios-gear-outline', color:'bg-aqua' },
-      { title: "Project Count", value: 3, icon:'ion ion-ios-gear-outline', color:'bg-blue' }
+      { title: 'Assigned Cases', value: 93, icon:'ion ion-ios-gear-outline', color:'bg-aqua' },
+      { title: 'Project Count', value: 3, icon:'ion ion-ios-gear-outline', color:'bg-blue' }
     ];
     return this;
-  };
+  }
   MainController.$inject = ['$scope'];
 
 
@@ -107,7 +108,7 @@
           '</div>' +
         '</div>'
     };
-  };
+  }
 
   angular.module('shikenApp')
   .directive('testCasesOverTimeChart',[TestCasesOverTimeChart])

@@ -59,8 +59,8 @@ app.controller('RoleDialogController',
         $scope.groupedOperations = {};
 
         $scope.allOperations.$promise.then(function(ops) {
-          $scope.groupedOperations = _.groupBy(ops, "groupName");
-          $scope.groups = _(ops).pluck("groupName").unique().sort().value();
+          $scope.groupedOperations = _.groupBy(ops, 'groupName');
+          $scope.groups = _(ops).pluck('groupName').unique().sort().value();
         });
         $scope.selectedCount = function(group) {
           return _($scope.role.operations).filter({groupName: group}).size();
@@ -87,7 +87,7 @@ app.controller('RoleDialogController',
         };
 
         $scope.save = function () {
-            if ($scope.role.id != null) {
+            if ($scope.role.id !== null) {
                 Role.update($scope.role, onSaveFinished);
             } else {
                 Role.save($scope.role, onSaveFinished);
@@ -112,8 +112,8 @@ app.controller('RoleDetailController', function ($scope, $rootScope, $stateParam
     $scope.groupedOperations = {};
 
     $scope.allOperations.$promise.then(function(ops) {
-      $scope.groupedOperations = _.groupBy(ops, "groupName");
-      $scope.groups = _(ops).pluck("groupName").unique().sort().value();
+      $scope.groupedOperations = _.groupBy(ops, 'groupName');
+      $scope.groups = _(ops).pluck('groupName').unique().sort().value();
     });
     $scope.selectedCount = function(group) {
       return _($scope.role.operations).filter({groupName: group}).size();
@@ -125,5 +125,5 @@ app.controller('RoleDetailController', function ($scope, $rootScope, $stateParam
         $scope.role = result;
     });
     $scope.$on('$destroy', unsubscribe);
-    
+
 });

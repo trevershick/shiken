@@ -1,16 +1,24 @@
 package io.shick.shiken.web.rest;
 
-import io.shick.shiken.Application;
-import io.shick.shiken.domain.Platform;
-import io.shick.shiken.repository.PlatformRepository;
-import io.shick.shiken.repository.search.PlatformSearchRepository;
-import io.shick.shiken.web.rest.dto.PlatformDTO;
-import io.shick.shiken.web.rest.mapper.PlatformMapper;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.StrictAssertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.hamcrest.Matchers.hasItem;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -23,13 +31,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import io.shick.shiken.Application;
+import io.shick.shiken.domain.Platform;
+import io.shick.shiken.repository.PlatformRepository;
+import io.shick.shiken.web.rest.dto.PlatformDTO;
+import io.shick.shiken.web.rest.mapper.PlatformMapper;
 
 
 /**
@@ -55,9 +61,6 @@ public class PlatformResourceTest {
     private PlatformMapper platformMapper;
 
     @Inject
-    private PlatformSearchRepository platformSearchRepository;
-
-    @Inject
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     private MockMvc restPlatformMockMvc;
@@ -70,7 +73,6 @@ public class PlatformResourceTest {
         PlatformResource platformResource = new PlatformResource();
         ReflectionTestUtils.setField(platformResource, "platformRepository", platformRepository);
         ReflectionTestUtils.setField(platformResource, "platformMapper", platformMapper);
-        ReflectionTestUtils.setField(platformResource, "platformSearchRepository", platformSearchRepository);
         this.restPlatformMockMvc = MockMvcBuilders.standaloneSetup(platformResource).setMessageConverters(jacksonMessageConverter).build();
     }
 
@@ -131,7 +133,6 @@ public class PlatformResourceTest {
         restPlatformMockMvc.perform(get("/api/platforms"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(platform.getId().intValue())))
                 .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
                 .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
     }
@@ -143,10 +144,10 @@ public class PlatformResourceTest {
         platformRepository.saveAndFlush(platform);
 
         // Get the platform
-        restPlatformMockMvc.perform(get("/api/platforms/{id}", platform.getId()))
+        restPlatformMockMvc.perform(get("/api/platforms/{id}", platform.getName()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.id").value(platform.getId().intValue()))
+            .andExpect(jsonPath("$.id").value(platform.getName()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()));
     }
@@ -195,7 +196,7 @@ public class PlatformResourceTest {
 		int databaseSizeBeforeDelete = platformRepository.findAll().size();
 
         // Get the platform
-        restPlatformMockMvc.perform(delete("/api/platforms/{id}", platform.getId())
+        restPlatformMockMvc.perform(delete("/api/platforms/{id}", platform.getName())
                 .accept(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
 

@@ -24,7 +24,7 @@ angular.module('shikenApp')
               if (!_authenticated || !_identity) {
                 return null;
               }
-              return _identity.firstName + " " + _identity.lastName;
+              return _identity.firstName + ' ' + _identity.lastName;
             },
             isIdentityResolved: function () {
                 return angular.isDefined(_identity);
@@ -46,17 +46,17 @@ angular.module('shikenApp')
               var eq = function(r) {
                 return r === role;
               };
-              if (role.indexOf("*") > -1) {
-                role = role.replace("*", ".*");
+              if (role.indexOf('*') > -1) {
+                role = role.replace('*', '.*');
                 eq = function(r) {
-                  return !!r.match(role)
-                }
+                  return !!r.match(role);
+                };
               }
 
               return _.some(_identity.roles, eq);
             },
             isInAnyRole: function (roles) {
-              return (roles.length == 0) || _.some(roles, this.isInRole);
+              return (roles.length === 0) || _.some(roles, this.isInRole);
             },
             authenticate: function (identity) {
                 _identity = identity;

@@ -18,7 +18,7 @@ function($scope, $stateParams, $modalInstance, entity, TestPlan, TestProject) {
   };
 
   $scope.save = function () {
-    if ($scope.testPlan.id != null) {
+    if ($scope.testPlan.id !== null) {
       TestPlan.update($scope.testPlan, onSaveFinished);
     } else {
       TestPlan.save($scope.testPlan, onSaveFinished);

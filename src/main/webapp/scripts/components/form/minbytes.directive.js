@@ -1,8 +1,7 @@
-/* globals $ */
 'use strict';
 
 angular.module('shikenApp')
-    .directive('minbytes', function ($q) {
+    .directive('minbytes', function () {
         function endsWith(suffix, str) {
             return str.indexOf(suffix, str.length - suffix.length) !== -1;
         }
@@ -25,7 +24,7 @@ angular.module('shikenApp')
             restrict: 'A',
             require: '?ngModel',
             link: function (scope, element, attrs, ngModel) {
-                if (!ngModel) return;
+                if (!ngModel) { return; }
 
                 ngModel.$validators.minbytes = function (modelValue) {
                     return ngModel.$isEmpty(modelValue) || numberOfBytes(modelValue) >= attrs.minbytes;

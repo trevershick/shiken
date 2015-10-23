@@ -19,7 +19,7 @@ angular.module('shikenApp')
         switch (httpResponse.status) {
           // connection refused, server not reachable
           case 0:
-          addErrorAlert("Server not reachable",'error.serverNotReachable');
+          addErrorAlert('Server not reachable','error.serverNotReachable');
           break;
 
           case 400:
@@ -27,7 +27,7 @@ angular.module('shikenApp')
             for (i = 0; i < httpResponse.data.fieldErrors.length; i++) {
               var fieldError = httpResponse.data.fieldErrors[i];
               // convert 'something[14].other[4].id' to 'something[].other[].id' so translations can be written to it
-              var convertedField = fieldError.field.replace(/\[\d*\]/g, "[]");
+              var convertedField = fieldError.field.replace(/\[\d*\]/g, '[]');
               var fieldName = $translate.instant('error.fieldName.' + fieldError.objectName + '.' + convertedField);
               addErrorAlert(fieldError.field + ' should not be empty', 'error.' + fieldError.message, {fieldName: fieldName});
             }
@@ -48,14 +48,13 @@ angular.module('shikenApp')
       });
 
       $scope.$on('$destroy', function () {
-        cleanupCleanErrorsListener();
+        cleanHttpErrorListener();
       });
 
       var addErrorAlert = function (message, key, data) {
         AlertService.error(key, data);
-      }
-
+      };
     }
   ]
-}
+};
 });

@@ -1,3 +1,4 @@
+/* globals describe,beforeEach,it,spyOn,expect,inject */
 'use strict';
 
 describe('Controllers Tests ', function () {
@@ -31,13 +32,13 @@ describe('Controllers Tests ', function () {
 
         it('should save account', function () {
             //GIVEN
-            var account = {firstName: "John", lastName: "Doe"};
+            var account = {firstName: 'John', lastName: 'Doe'};
             $scope.settingsAccount = account;
 
             //SET SPY
             spyOn(Principal, 'identity').and.callThrough();
 
-            spyOn(Auth, 'updateAccount').and.returnValue(new function(){
+            spyOn(Auth, 'updateAccount').and.returnValue(function(){
                 var deferred = q.defer();
                 $scope.error = null;
                 $scope.success = 'OK';

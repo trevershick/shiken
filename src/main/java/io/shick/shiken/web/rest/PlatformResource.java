@@ -1,14 +1,11 @@
 package io.shick.shiken.web.rest;
 
-import static org.elasticsearch.index.query.QueryBuilders.queryString;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -32,7 +29,6 @@ import com.codahale.metrics.annotation.Timed;
 
 import io.shick.shiken.domain.Platform;
 import io.shick.shiken.repository.PlatformRepository;
-import io.shick.shiken.repository.search.PlatformSearchRepository;
 import io.shick.shiken.web.rest.dto.PlatformDTO;
 import io.shick.shiken.web.rest.mapper.PlatformMapper;
 import io.shick.shiken.web.rest.util.HeaderUtil;
@@ -53,9 +49,6 @@ public class PlatformResource {
     @Inject
     private PlatformMapper platformMapper;
 
-    @Inject
-    private PlatformSearchRepository platformSearchRepository;
-
     /**
      * POST  /platforms -> Create a new platform.
      */
@@ -65,14 +58,10 @@ public class PlatformResource {
     @Timed
     public ResponseEntity<PlatformDTO> create(@Valid @RequestBody PlatformDTO platformDTO) throws URISyntaxException {
         log.debug("REST request to save Platform : {}", platformDTO);
-        if (platformDTO.getId() != null) {
-            return ResponseEntity.badRequest().header("Failure", "A new platform cannot already have an ID").body(null);
-        }
         Platform platform = platformMapper.platformDTOToPlatform(platformDTO);
         Platform result = platformRepository.save(platform);
-        platformSearchRepository.save(result);
-        return ResponseEntity.created(new URI("/api/platforms/" + result.getId()))
-                .headers(HeaderUtil.createEntityCreationAlert("platform", result.getId().toString()))
+        return ResponseEntity.created(new URI("/api/platforms/" + result.getName()))
+                .headers(HeaderUtil.createEntityCreationAlert("platform", result.getName().toString()))
                 .body(platformMapper.platformToPlatformDTO(result));
     }
 
@@ -85,14 +74,13 @@ public class PlatformResource {
     @Timed
     public ResponseEntity<PlatformDTO> update(@Valid @RequestBody PlatformDTO platformDTO) throws URISyntaxException {
         log.debug("REST request to update Platform : {}", platformDTO);
-        if (platformDTO.getId() == null) {
+        if (platformDTO.getName() == null) {
             return create(platformDTO);
         }
         Platform platform = platformMapper.platformDTOToPlatform(platformDTO);
         Platform result = platformRepository.save(platform);
-        platformSearchRepository.save(platform);
         return ResponseEntity.ok()
-                .headers(HeaderUtil.createEntityUpdateAlert("platform", platformDTO.getId().toString()))
+                .headers(HeaderUtil.createEntityUpdateAlert("platform", platformDTO.getName().toString()))
                 .body(platformMapper.platformToPlatformDTO(result));
     }
 
@@ -121,7 +109,7 @@ public class PlatformResource {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<PlatformDTO> get(@PathVariable Long id) {
+    public ResponseEntity<PlatformDTO> get(@PathVariable String id) {
         log.debug("REST request to get Platform : {}", id);
         return Optional.ofNullable(platformRepository.findOne(id))
             .map(platformMapper::platformToPlatformDTO)
@@ -138,28 +126,14 @@ public class PlatformResource {
             method = RequestMethod.DELETE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<PlatformDTO> delete(@PathVariable Long id) {
+    public ResponseEntity<PlatformDTO> delete(@PathVariable String id) {
         log.debug("REST request to delete Platform : {}", id);
         
         return Optional.ofNullable(platformRepository.findOne(id))
         			.map(p -> { platformRepository.delete(id); return p; })
-        			.map(p -> { platformSearchRepository.delete(id); return p; })
         			.map(platformMapper::platformToPlatformDTO)
                     .map(dto -> ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("platform", id.toString())).body(dto))
                     .orElse(new ResponseEntity<PlatformDTO>(HttpStatus.NOT_FOUND));
     }
 
-    /**
-     * SEARCH  /_search/platforms/:query -> search for the platform corresponding
-     * to the query.
-     */
-    @RequestMapping(value = "/_search/platforms/{query}",
-        method = RequestMethod.GET,
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public List<Platform> search(@PathVariable String query) {
-        return StreamSupport
-            .stream(platformSearchRepository.search(queryString(query)).spliterator(), false)
-            .collect(Collectors.toList());
-    }
 }

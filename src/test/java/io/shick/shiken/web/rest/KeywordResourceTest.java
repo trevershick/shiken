@@ -1,16 +1,24 @@
 package io.shick.shiken.web.rest;
 
-import io.shick.shiken.Application;
-import io.shick.shiken.domain.Keyword;
-import io.shick.shiken.repository.KeywordRepository;
-import io.shick.shiken.repository.search.KeywordSearchRepository;
-import io.shick.shiken.web.rest.dto.KeywordDTO;
-import io.shick.shiken.web.rest.mapper.KeywordMapper;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.StrictAssertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.hamcrest.Matchers.hasItem;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
@@ -23,13 +31,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import io.shick.shiken.Application;
+import io.shick.shiken.domain.Keyword;
+import io.shick.shiken.repository.KeywordRepository;
+import io.shick.shiken.web.rest.dto.KeywordDTO;
+import io.shick.shiken.web.rest.mapper.KeywordMapper;
 
 
 /**
@@ -55,9 +61,6 @@ public class KeywordResourceTest {
     private KeywordMapper keywordMapper;
 
     @Inject
-    private KeywordSearchRepository keywordSearchRepository;
-
-    @Inject
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     private MockMvc restKeywordMockMvc;
@@ -70,7 +73,6 @@ public class KeywordResourceTest {
         KeywordResource keywordResource = new KeywordResource();
         ReflectionTestUtils.setField(keywordResource, "keywordRepository", keywordRepository);
         ReflectionTestUtils.setField(keywordResource, "keywordMapper", keywordMapper);
-        ReflectionTestUtils.setField(keywordResource, "keywordSearchRepository", keywordSearchRepository);
         this.restKeywordMockMvc = MockMvcBuilders.standaloneSetup(keywordResource).setMessageConverters(jacksonMessageConverter).build();
     }
 

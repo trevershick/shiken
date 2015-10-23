@@ -17,7 +17,7 @@ angular.module('shikenApp').controller('PlatformDialogController',
         };
 
         $scope.save = function () {
-            if ($scope.platform.id != null) {
+            if ($scope.platform.id !== null) {
                 Platform.update($scope.platform, onSaveFinished);
             } else {
                 Platform.save($scope.platform, onSaveFinished);

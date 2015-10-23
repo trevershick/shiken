@@ -9,8 +9,7 @@
                   <span translate="shikenApp.keyword.home.createLabel">Create a new Keyword</span>
               </button>
 
-              <input type="text" class="form-control input-sm" ng-model="searchQuery" id="searchQuery" placeholder="query">
-              <button class="btn btn-info btn-sm" ng-click="search()"><span class="glyphicon glyphicon-search"></span></button>
+              <input type="text" class="form-control input-sm" ng-model="searchFilter" id="searchFilter" placeholder="filter">
           </div>
         </div>
       </div>
@@ -32,7 +31,7 @@
               <td></td>
             </tr>
             <tbody infinite-scroll="loadPage(page + 1)" infinite-scroll-disabled="links['last'] == page">
-                <tr ng-repeat="keyword in keywords">
+                <tr ng-repeat="keyword in keywords | filter:searchFilter">
                     <td><a ui-sref="keyword.detail({id:keyword.name})">{{keyword.name}}</a></td>
                     <td>{{keyword.description}}</td>
                     <td>

@@ -1,3 +1,4 @@
+'use strict';
 angular.module('shikenApp')
     .controller('TrackerController', function ($scope, AuthServerProvider, $cookies, $http, Tracker) {
         // This controller uses a Websocket connection to receive user activities in real-time.
@@ -10,17 +11,17 @@ angular.module('shikenApp')
         function showActivity(activity) {
             var existingActivity = false;
             for (var index = 0; index < $scope.activities.length; index++) {
-                if($scope.activities[index].sessionId == activity.sessionId) {
+                if($scope.activities[index].sessionId === activity.sessionId) {
                     existingActivity = true;
-                    if (activity.page == 'logout') {
+                    if (activity.page === 'logout') {
                         $scope.activities.splice(index, 1);
                     } else {
                         $scope.activities[index] = activity;
                     }
                 }
             }
-            if (!existingActivity && (activity.page != 'logout')) {
+            if (!existingActivity && (activity.page !== 'logout')) {
                 $scope.activities.push(activity);
             }
-        };
+        }
     });

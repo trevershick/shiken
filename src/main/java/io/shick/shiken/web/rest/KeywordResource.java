@@ -1,13 +1,15 @@
 package io.shick.shiken.web.rest;
 
-import com.codahale.metrics.annotation.Timed;
-import io.shick.shiken.domain.Keyword;
-import io.shick.shiken.repository.KeywordRepository;
-import io.shick.shiken.repository.search.KeywordSearchRepository;
-import io.shick.shiken.web.rest.util.HeaderUtil;
-import io.shick.shiken.web.rest.util.PaginationUtil;
-import io.shick.shiken.web.rest.dto.KeywordDTO;
-import io.shick.shiken.web.rest.mapper.KeywordMapper;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import javax.inject.Inject;
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -16,19 +18,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.inject.Inject;
-import javax.validation.Valid;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import com.codahale.metrics.annotation.Timed;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import io.shick.shiken.domain.Keyword;
+import io.shick.shiken.repository.KeywordRepository;
+import io.shick.shiken.web.rest.dto.KeywordDTO;
+import io.shick.shiken.web.rest.mapper.KeywordMapper;
+import io.shick.shiken.web.rest.util.HeaderUtil;
+import io.shick.shiken.web.rest.util.PaginationUtil;
 
 /**
  * REST controller for managing Keyword.
@@ -45,9 +49,6 @@ public class KeywordResource {
     @Inject
     private KeywordMapper keywordMapper;
 
-    @Inject
-    private KeywordSearchRepository keywordSearchRepository;
-
     /**
      * POST  /keywords -> Create a new keyword.
      */
@@ -62,7 +63,6 @@ public class KeywordResource {
         // }
         Keyword keyword = keywordMapper.keywordDTOToKeyword(keywordDTO);
         Keyword result = keywordRepository.save(keyword);
-        keywordSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/keywords/" + result.getName()))
                 .headers(HeaderUtil.createEntityCreationAlert("keyword", result.getName().toString()))
                 .body(keywordMapper.keywordToKeywordDTO(result));
@@ -82,7 +82,6 @@ public class KeywordResource {
         }
         Keyword keyword = keywordMapper.keywordDTOToKeyword(keywordDTO);
         Keyword result = keywordRepository.save(keyword);
-        keywordSearchRepository.save(keyword);
         return ResponseEntity.ok()
                 .headers(HeaderUtil.createEntityUpdateAlert("keyword", keywordDTO.getName().toString()))
                 .body(keywordMapper.keywordToKeywordDTO(result));
@@ -134,21 +133,7 @@ public class KeywordResource {
     	// TODO return the entity upon delete
         log.debug("REST request to delete Keyword : {}", name);
         keywordRepository.delete(name);
-        keywordSearchRepository.delete(name);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert("keyword", name.toString())).build();
     }
 
-    /**
-     * SEARCH  /_search/keywords/:query -> search for the keyword corresponding
-     * to the query.
-     */
-    @RequestMapping(value = "/_search/keywords/{query}",
-        method = RequestMethod.GET,
-        produces = MediaType.APPLICATION_JSON_VALUE)
-    @Timed
-    public List<Keyword> search(@PathVariable String query) {
-        return StreamSupport
-            .stream(keywordSearchRepository.search(queryString(query)).spliterator(), false)
-            .collect(Collectors.toList());
-    }
 }

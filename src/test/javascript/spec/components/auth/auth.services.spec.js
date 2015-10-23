@@ -1,3 +1,4 @@
+/* globals describe,beforeEach,it,spyOn,expect,inject */
 'use strict';
 
 describe('Services Tests ', function () {
@@ -15,7 +16,7 @@ describe('Services Tests ', function () {
             //Request on app init
             $httpBackend.whenGET('scripts/app/main/main.html').respond({});
             $httpBackend.whenGET('scripts/components/navbar/navbar.html').respond({});
-            var globalJson = new RegExp('i18n\/.*\/global.json')
+            var globalJson = new RegExp('i18n\/.*\/global.json');
             var mainJson = new RegExp('i18n\/.*\/main.json');
             $httpBackend.whenGET(globalJson).respond({});
             $httpBackend.whenGET(mainJson).respond({});
@@ -27,7 +28,7 @@ describe('Services Tests ', function () {
             $httpBackend.verifyNoOutstandingExpectation();
             $httpBackend.verifyNoOutstandingRequest();
         });
-        
+
         it('should call backend on logout then call authServerProvider.logout', function(){
             //GIVEN
             //Set spy

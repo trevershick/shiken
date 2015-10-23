@@ -1,3 +1,4 @@
+/* globals window,SockJS,Stomp */
 'use strict';
 
 angular.module('shikenApp')
@@ -8,7 +9,7 @@ angular.module('shikenApp')
         var connected = $q.defer();
         var alreadyConnectedOnce = false;
         function sendActivity() {
-            if (stompClient != null && stompClient.connected) {
+            if (stompClient !== null && stompClient.connected) {
                 stompClient
                     .send('/topic/activity',
                     {},
@@ -37,11 +38,11 @@ angular.module('shikenApp')
                 stompClient = Stomp.over(socket);
                 var headers = {};
                 // headers['X-CSRF-TOKEN'] = $cookies[$http.defaults.xsrfCookieName];
-                stompClient.connect(headers, function(frame) {
-                    connected.resolve("success");
+                stompClient.connect(headers, function() {
+                    connected.resolve('success');
                     sendActivity();
                     if (!alreadyConnectedOnce) {
-                        $rootScope.$on('$stateChangeStart', function (event) {
+                        $rootScope.$on('$stateChangeStart', function () {
                             sendActivity();
                         });
                         alreadyConnectedOnce = true;
@@ -50,13 +51,13 @@ angular.module('shikenApp')
             },
             subscribe: function() {
                 connected.promise.then(function() {
-                    subscriber = stompClient.subscribe("/topic/tracker", function(data) {
+                    subscriber = stompClient.subscribe('/topic/tracker', function(data) {
                         listener.notify(JSON.parse(data.body));
                     });
                 }, null, null);
             },
             unsubscribe: function() {
-                if (subscriber != null) {
+                if (subscriber !== null) {
                     subscriber.unsubscribe();
                 }
             },
@@ -64,12 +65,12 @@ angular.module('shikenApp')
                 return listener.promise;
             },
             sendActivity: function () {
-                if (stompClient != null) {
+                if (stompClient !== null) {
                     sendActivity();
                 }
             },
             disconnect: function() {
-                if (stompClient != null) {
+                if (stompClient !== null) {
                     stompClient.disconnect();
                     stompClient = null;
                 }

@@ -33,11 +33,6 @@ public class Platform implements Serializable {
 	private static final long serialVersionUID = 1623385530772987652L;
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-	@Property
-    private Long id;
-
-    @NotNull
     @Size(min = 2, max = 8)    
     @Column(name = "name", length = 8, nullable = false)
 	@Property
@@ -48,14 +43,6 @@ public class Platform implements Serializable {
     @Column(name = "description")
 	@Property
     private String description;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

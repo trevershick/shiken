@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Spring Data JPA repository for the Platform entity.
  */
-public interface PlatformRepository extends JpaRepository<Platform,Long> {
+public interface PlatformRepository extends JpaRepository<Platform,String> {
 
 	@Override
 	@Secured("OP_MG_PLATFORM")

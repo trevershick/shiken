@@ -8,7 +8,7 @@ app.config(function ($stateProvider) {
                 parent: 'entity',
                 url: '/keywords',
                 data: {
-                    roles: ["OP_KEYWORD_*"],
+                    roles: ['OP_KEYWORD_*'],
                     pageTitle: 'shikenApp.keyword.home.title'
                 },
                 views: {
@@ -64,11 +64,11 @@ app.config(function ($stateProvider) {
                                 return {name: null, description: null, id: null};
                             }
                         }
-                    }).result.then(function(result) {
+                    }).result.then(function() {
                         $state.go('keyword', null, { reload: true });
                     }, function() {
                         $state.go('keyword');
-                    })
+                    });
                 }]
             })
             .state('keyword.edit', {
@@ -87,11 +87,11 @@ app.config(function ($stateProvider) {
                                 return Keyword.get({id : $stateParams.id});
                             }]
                         }
-                    }).result.then(function(result) {
+                    }).result.then(function() {
                         $state.go('keyword', null, { reload: true });
                     }, function() {
                         $state.go('^');
-                    })
+                    });
                 }]
             })
             .state('keyword.delete', {
@@ -110,11 +110,11 @@ app.config(function ($stateProvider) {
                                 return Keyword.get({id : $stateParams.id});
                             }]
                         }
-                    }).result.then(function(result) {
+                    }).result.then(function() {
                         $state.go('keyword', null, { reload: true });
                     }, function() {
                         $state.go('^');
-                    })
+                    });
                 }]
             });
     });
