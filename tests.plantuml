@@ -1,0 +1,182 @@
+@startuml
+
+class User {
+  apikey:string
+  rolesInProject:Map[TestProject,Role]
+}
+class TestProject {
+  plans:[TestPlan]
+  milestones:[Milestone]
+  description:string
+  prefix:string
+  issueTracker:IssueTracker
+  apikey:string
+  active:boolean
+  public:boolean
+  enableRequirementsFeature:boolean
+  enableTestingPriority:boolean
+  enableTestAutomationAPIkeys:boolean
+}
+class IssueTracker {
+  name:string
+}
+class TestStep {
+  actions:htmlstring
+  expected:htmlstring
+  execution:automated,manual
+  ---
+  create()
+  copy()
+  move()
+  delete()
+}
+class TestCase {
+  title:string
+  summary:htmlstring
+  preconditions:htmlstring
+  status:draft,ready for review,in review,rework,obsolete,future,final
+  importance:h,m,l
+  executionType:automated,manual
+  keywords:[Keyword]
+  steps:[TestStep]
+  externalid:string
+  version:int
+  executionOrder:int
+  ---
+  edit():void
+  delete():void
+  move():void
+  copy():void
+  newSibling():void
+  export()
+  print()
+  newVersion()
+  deactivateCurrentVersion()
+  addTo(plan:TestPlan)
+  executionHistory():[TestExecution]
+  testPlanUsage():(version,TestPlan,Platform)
+}
+TestCase *-- TestStep
+TestProject *-- TestCase
+
+class TestPlan {
+  name:string
+  description:string
+  active:boolean
+  public:boolean
+  apikey:string
+  executions: [TestExecution]
+  executables:[TestCaseReference]
+  attachments:[AttachedFile]
+  --
+  import(file:File):void
+  export():File
+  delete():void
+  assignRoles():void
+  addPlatform(p:Platform)
+  addCase(case:TestCase)
+}
+class TestCaseReference {
+  case:TestCase
+  version:int
+}
+class Milestone {
+  name:string
+  target: Date
+  start: Date
+  requiredHighPriorityCoverage:double
+  requiredMedPriorityCoverage:double
+  requiredLowPriorityCoverage:double
+}
+/' requiredHighPriritycoverage= Completed tests with High Priority [0-100%]: '/
+
+
+/' Milestones consider executions within a specified time period.
+#This period starts with the Start Date 00:00:00 - if the Start Date is not specified all executions are taken into account - and ends with the Target date 23:59:59.
+#All executions after the Target Date are ignored.
+#Milestones are reached when all "Sub-Milestones" for the different priorities are reached. Status of Milestones can be found on General Test Plan Metrics.
+'/
+class AttachedFile {
+
+}
+
+class Build {
+  title:string
+  description:string
+  active:boolean
+  status:open|closed
+  releaseDate:Date
+}
+
+class System {
+
+}
+class Keyword {
+
+}
+class CustomField {
+  name:string
+  label:string
+  type:string
+  onType:oneof 'TestPlan','Build',etc
+  displayOnTestExecution:boolean
+}
+class Platform {
+  name:string
+  description:string
+}
+
+TestProject o-- CustomField
+TestProject o-- Platform
+TestProject o-- Keyword
+System *-- CustomField
+System *-- Platform
+System *-- Keyword
+
+class TestSuite {
+  attachments:[AttachedFile]
+}
+TestSuite *-- TestCase
+
+class TestResult {
+
+}
+
+class TestExecution {
+  platform:Platform
+  build:Build
+  case:TestCase
+  assignee: User
+  results: [TestResult]
+}
+class Features {
+  exportPlatforms()
+  importPlatforms()
+  attachKeywordsToTestCases()
+  manageUsers()
+  ---
+  Leads Only
+  manageTests()
+  ---
+  Testers
+  executeTestsAssignedToMe()
+}
+
+TestExecution -- User: assignee
+TestExecution -- Build
+TestExecution -- Platform
+TestExecution -- TestCase
+TestExecution *-- TestResult: results
+TestProject o-- TestPlan: plans
+TestPlan *-- Build: builds
+TestPlan *-- Milestone: milestones
+TestPlan o-- Platform:platforms
+TestPlan *-- AttachedFile:attachments
+TestPlan *-- TestExecution: executions
+TestPlan o-- TestCaseReference : executables
+TestCaseReference -- TestCase
+/' to execute a test plan - There has to be at least one active and open Build for this Test Plan. plan2
+
+'/
+System *-- IssueTracker
+@enduml
